@@ -1,0 +1,1696 @@
+<!-- CREATE NEW ANGULAR PROJECT:
+
+    npm install -g @angular/cli
+    ng new app-name
+    cd app-name
+    ng serve
+ -->
+
+<!-- 
+    FOLDERS IN ANGULAR PROJECT
+
+    NODE_MODULES - all the pluggins,dependencies,libraries required for the project will be in here
+    SRC          - the main part ofthe angular project
+                    and also this is where we will be writing our code 
+-->
+
+<!-- 
+    INSTALL BOOTSTRAP 
+
+    in the vs code terminal         -       npm install bootstrap
+    so the bootstrap will install in the node_modules
+    now we need to link it to the project otherwise it wont work
+    we need to link the bootstrap file in angular.json
+    we need to link bootstrap file link[node_modules/bootstrap/dist/css/bootstrap] in the styles section in the angular.json file
+-->
+
+<!-- 
+    first index.html gets executed 
+    after that it will execute to main .ts
+    from there it goes to the section where bootstrapmodule() takes the module is imported from ./app/app.module
+    now it goes to app.module whice is the folder of app (the group of all files in the app folder is called appmodule)
+    all the components created in the project should be in app module and also the file which should be loaded first is mentioned in bootstrap:[]
+    the appComponent is imported from ./app.component
+    now it goes to app.component.ts
+    where has some decoratores to specify the selector,template(html) and style(css) tags
+    the @component seloctor mentioned in this file should be in index.html page 
+
+ -->
+
+
+<!-- TEMPLATE VS TEMPLATEURL
+
+    templateUrl: './users.component.html',
+    template: `
+    <h1>hello</h1>
+    `, 
+
+-->
+
+
+<!-- STYLES VS STYLEURLS 
+
+    styleUrls: ['./users.component.css']
+    styles: `
+        h3 {
+            color = red
+        }
+        ` 
+
+-->
+
+
+<!--SELECTOR:
+
+    selector: '.app-users',                the app-users is defined as class in users.component.html
+    selector: '[app-users]',                                 ""
+    selector: 'app-users',                 the app-users is defined as  element  
+
+-->
+
+
+<!-- DATA BINDING
+
+    it is nothing but how the data bind in the app folder
+    for example how the html and ts files interact with each other in a folder.
+    by using the export component in the ts file we can dynamically assign properties to the html
+    in html the property identifier should be specifies inside {{}}
+    and in ts the property assigns as
+    property identifier = property;
+    and also we can asiign the datatype as
+    property identifier : datatype = property;
+
+-->
+
+
+<!-- PROPERTY BINDING          -         component to the view
+
+    it is one type of data binding where we can dynamically allocate data to the property
+    it allows us to bind property of the view binder to the variable of the template expression
+
+    here in the html the binder is defined as [binder] = variable
+    and in the ts the variable is assigned with a value 
+    here in the app.component.html we created a button and assiagn the binder as [disabled]= allowNewUser
+    and in app.component.ts we assigned it to the value false then created a constructor and set timeout to 5000
+    and after 5000 the valuse of allowNewUser is changed to false
+
+    allowNewUser =true;
+    constructor() {
+        setTimeout(() =>{
+        this.allowNewUser =false;
+        },5000);
+    }
+
+ -->
+
+
+<!-- EVENT BINDING               -           view to the component
+
+    it is uesd to capture and respond to events triggered by user interactions,
+    such as clicking a button,submitting a form ,hover over an element
+
+    in users.component.html we usedx event binding in button as
+    (click)="changeStatus()
+    when we click the buttion we are calling a method called changeStatus as 
+    changeStatus() {
+        this.status = 'submitted'
+        this.allowNewUser = !this.allowNewUser
+    in users.component.ts 
+    this returns the value of statues as submitted
+
+ -->
+
+
+<!-- $EVENT
+
+    for every event we do in the angular, angular sends the details of the event through a special token called $event
+
+    The $event object often contains information the method needs,
+    such as a user's name or an image URL. The target event determines the shape of the $event object.
+    If the target event is a native DOM element event, then $event is a DOM event object,
+    with properties such as target and target.
+
+    here we are trying to reprint the user input data below the input box
+    first weadded an input box with an event (input)=onUpdateUser()
+    and then we create a method with the name onUpdateUser($event:Event) {
+                            this.userName = (event.target as HTMLInputElement).value;
+    }                here every time we enter an input angular takes it as an $even and stores the input data
+                        in event.target.value  but the event .target may be anytype of element so the compiler gives an error
+                        to resolve this we take event.target as HTMLInputElement.
+
+ -->
+
+
+<!-- TWO WAY DATA BINDING    [(ngModel)] = element
+
+    we can achieve both event and properties binding with this
+    it is two-way data bnding 
+    In order to work with ngModel we should import FormsModule into imports in app.module.ts - @ngModule 
+    as import {FormsModule} from '@angular/forms'
+
+    in this example we created an input-box and h1 in app.component.html as 
+    <input type="text" [(ngModel)]="userName">
+    <h1>{{userName}}</h1>
+    alo created element in app.component.ts
+    userName= 'test user' in export class
+
+-->
+
+<!-- structural directive
+    these changes the structure of the DOM
+    therse are represented as *(star) before the element
+
+
+    ->ngif                -           *ngIf
+
+    app.component.html
+    it is used when we want to show output conditionally in the template
+    in this example first we used a p tag to show the text user is created and the user name is {{userNAme}} in app.component.html using
+    <p *ngIf="isUserCreated">user is created and the userName is {{userName}}</p>
+    here we used *ngif to check whether the isUserCrested element is true or false
+    if it is true then it will execute or else it gets neglected
+    after that we moved to app.component.ts to add the element isUserCrested in export class as
+    isUserCrested = false;
+    then we changed the isUsrCreated element in the userCreatedStatus method to true as
+    this.isUserCrested = true;
+    here we used this method because the function of the p text is to display the message when the button is clicked
+    here the userCreatedStatus method checks whether the button is clicked or not so we are using this method to cahnge our required element
+    so that when we click the button it shows us the textintended.
+
+
+    ->ngif else  
+
+    in extra to ngif we add else also in the tag to add else block
+    in the example we used
+    <p *ngIf="(isUserCreated); else noUser">user is created and the userName is {{userName}}</p>
+    also a component ng-template (local refrence) to (noUser))else 
+    <ng-template #noUser>
+    no user is created
+    </ng-template>
+
+
+    ->ngStyle     it is an attribute directive      -              [ngStyle]
+
+    user.component.html
+    it dynamically adds styles to the template but not dynamically adds elements.
+    in the example we added ngStyle and its components to user.component.html as
+    <div [ngStyle]="{'background-color':getColor()}">user with id {{UserID}} is {{UserStatus}}</div>
+    here ngStyle is not a structural derivative so no *
+    also here we added a method to dynamically add color to the element
+    after that we move to user.component.ts and added a method getColor and added an if statement to return color
+    getColor(){
+        if (this.userStatus === 'online'){
+            return 'green';
+        }
+        return 'red';
+    }
+
+
+    -> ngClass
+
+    user.component.html
+    here we dynamically add class to the elements in the template.
+    we use [ngClass] in the html tag that we should modify and also we add styles in the ts file in @component
+    styles : [`
+    .offline {
+        color : white;
+    }`]
+
+
+    -> ngFor
+
+    it dynamically addes the element when we specify *ngFor in the element tag
+    example we added *ngFor in app-user tag in app.component.html and we secified a condition according to which it should work
+    we given the condition as let user in users 
+    users is an array consisting of list of users and when we execute the code for the number of users in the list
+    iyt displays the app-user element
+    <app-user class="text-center" *ngFor="let user of users"></app-user>
+    we specified the users in app.component.ts in export class
+
+ -->
+
+
+<!-- DEBUGGING
+
+    we can debug using the console on the brouser
+    most ofthe errors are listed in the console tab and its pinpoint location is also given there
+    butsometimes its not posibble hen we use sources tab and locate the error while clicking the error part in the template.
+
+ -->
+
+<!--Send Data from Parent to Child Component using Custom Properties with @Input() in Angular.
+
+    users.component    -user.component
+
+    to use it we need to import Input from @angular/core
+    and add the inport() in the child .ts file
+
+    we creted a new project called sample-project
+    also installed bootstrap linked bootstrap with the project
+    we also created two new components user,users
+    we added [userName]="user" in the users.component.html besides the child class where we need to send
+    and in child component(user.component.ts) we imported and added Import() before the name of element in export class
+    (here the property binding and the element should be same name to use thenm directly or we can add the binding name inside the Import() so that it takes as an alias   Import(user) )
+    after we can use the element in html directly
+
+ -->
+
+
+<!--Send Data from Child to Parent Component. Binding to Custom Events using @Output in Angular
+
+    to send data from child to parent we use custom events and output that event from child to parent
+    here we created another component called addUser and we moved all the adding components in user component to new component. 
+    we added a custom event in .ts file as
+    @Output() userAdded =new EventEmitter<string>();
+    addUserToList() {
+    this.userAdded.emit(this.userName);
+    }
+    and in place of all the adding components in parent component we added 
+    <app-add-user (userAdded)="addUserToList($event)"></app-add-user>
+    also in .ts we added
+    addUserToList(event:string) {
+    this.userList.push(event);
+    }
+
+ -->
+
+
+<!-- ENCAPSULATION
+
+    in angular if we add styling to a tag to get all elements with that tag to impliment the styling
+    it does not impliment to all the tags(which are child components) mentioned in that template .
+    because angular creates a shadow DOM behind everything and gives unique identifiers ti them and apply styling to the tags present in that template.it is the default setting.
+    if we wantto eliminate this we can do by using 
+    encapsulation : ViewEncapsulation.None,
+    in .ts file in the @component 
+    the default is emulated 
+
+ -->
+
+
+<!-- LOCAL REFRENCE
+
+    how we can access html template from the .ts file
+    we use local refrence #name to identify the local element and we pass the same element in the method calling method(name)
+
+    <input type="text" class="form-control" #userInput />
+    <div class="mt-2">
+        <button class="btn btn-primary" (click)="addUserToList(userInput)">Add User</button>
+    </div>
+    
+    and then in .ts we add the method with input:htmlinputelement in the braces and emit input.value as
+
+    @Output() userAdded =new EventEmitter<string>();
+    addUserToList(input:HTMLInputElement) {
+    this.userAdded.emit(input.value);
+  }
+
+ -->
+
+
+<!--local refrence using @viewChild 
+
+    here we use a local refrence in the html inside a tag and use @viewchild in .ts inside the export class
+    we need to import viewchild,elementref from @angular/core and then follows
+    @ViewChild('name') name!: ElementRef;   in newer versions 14+ we need to add ! after name in the viewchild
+    and add method taht uses the reference element to print the value.
+    @Output() name1 =new EventEmitter<string>();
+    method() {
+    this.name1.emit(this.name.nativeElement.value);
+     }
+
+ -->
+
+<!-- ng-content 
+    we are using @input for the data sharing between the components but we can also use ng-content
+    first we need to specify where the data need to be inserted in the template using ng-content tag
+    then we need to add the data we are willing to add in the other template inside the reference tag to that template
+    it is used when there is a situation when we cannot send the data using the property
+
+ -->
+
+<!-- 
+    component life cycle:
+    when a component is created in angular it will go on checking some metghods which will execute automatically those are called component life cycle.
+    ngOnchanges -> whenever an @Input() is changed this method is invoked and executed like what we should do if @Input() is changed 
+    ngOnInit when ever a component is initialized it is invoked
+    ngDoCheck -> it is invoked whenever a change is occured in the component(templa,property,style).
+    it effects the performance
+    ex: whenever a button is clicked
+    ngAfterContentInit - > when ever the parent html content is projected into the child view using ngContent it is invoked
+    ngAfterContentChecked - > whenever any changes occur in the ngContent it is envoked
+    ngAfterViewInit - > after all the component,childs views are initialized this method will invoke and executed
+    ngAfterViewChecked  - > if any changes occur in the component,childs components this method is invoked
+    ngOnDestroy -> whenever a componet is destroyed this method is invoked
+ -->
+
+<!-- 
+    custom attribute directive in angular
+
+    first we need to create a folder called directive then a file ts and add following code :
+    import Directive, OnInit, ElementRef from @angular/core then declare a directive @Directive in the directive add a selector (selector:'name') then create a export class which implements OnInit
+    change constructor so that add private element: ElementRef in ()and leave the constructor empty
+    then on OnInit method add (this.element.nativeElement as HTMLElement).style.styleYouNeed;
+
+    import { Directive, OnInit, ElementRef } from '@angular/core'
+
+    @Directive({
+        selector: 'AppHighlight'
+    })
+    export class HighlightTextDirective implements OnInit {
+        constructor(private element: ElementRef) {}
+
+        ngOnInit(): void {
+            (this.element.nativeElement as HTMLElement).style.backgroundColor = 'red';
+        }
+    }
+
+    then use the directive as an attribute to get the results.
+ -->
+
+
+<!-- 
+    custom attribute directive in angular using renderer
+
+    run command ng g d to create a directive as directives/name
+    then implement OnInit in the export class
+    give values in the constructor as 
+    private element:ElementRef,private renderer:renderer2
+    then keep constructor empty
+
+    in OnInit add this.name.setStyle(obj,style,value)
+    this.renderer.setStyle(this.element.nativeElement,'background-color','green');
+
+ -->
+
+<!-- 
+    @HostListner():
+    @HostListener() is a decorator in Angular that allows you to listen for events on the host element of a component. It is used to bind an event to a function within the component.
+
+    The @HostListener decorator in Angular enables you to listen for events on the host element of a component. It is commonly used to bind an event to a function within the component. For example, @HostListener('mouseenter') is used to detect when the user's mouse enters the element and then execute the onEnter function, which changes the background color to blue using the renderer.
+
+ -->
+
+<!-- @ContentChild()
+
+    @Contenthild(ref)name!:ref
+     content child is similar to that of a view child but the content children of the given component are the child elements that are projected into the component from the host component.
+     it is used to query list of elements from the DOM.
+     ViewChild is used to select an element from component's template while ContentChild is used to select projected content
+ -->
+
+
+<!-- sending data to the directives as property
+
+    we need to create @input() in the directive and take input like
+    @input() property:'value';
+
+    after that we can pass value to the directive using property in the element where we are using the directive
+    in the html where we used the directive
+            <directive [property]="'value'">  because its a string we need to use both double and sinngle quotes to define it as a string
+
+ -->
+
+
+<!--structural directive 
+
+    Structural directives are directives which change the DOM layout by adding and removing DOM elements. Angular provides a set of built-in structural directives (such as NgIf , NgForOf , NgSwitch and others) which are commonly used in all Angular projects.
+    we write 
+    <tag *ngIf='condition'>content</tag>
+    but in actual the angular converts this into 
+    <ng-template [ngIf]='condition'><tag>content</tag></ng-template>
+
+ -->
+
+
+<!-- custom structural directive
+
+    we need to create a custom directive using ng g d command
+    then we need to populate the constructor with (private templateRefrence:TemplateRef<any>,private containerRefrence:ViewContainerRef)
+    then @input() selector_name(condition){}
+    in the method write the logic for the custom directive
+    here we are writing 
+    if (cond){
+      this.cont.createEmbeddedView(this.temp)
+    }else {
+      this.cont.clear()
+    }
+
+
+ -->
+
+<!-- ngSwitch
+
+    here we can have one condition with multiple options same as switch condition
+    here we define condition in *ngSwitch='condition'and options as *ngSwitchCase='value' and also a default value with *ngSwitchDefault
+
+    <div [ngSwitch]="num">
+        <div *ngSwitchCase="0">number is 0</div>
+        <div *ngSwitchCase="5">number is 5</div>
+        <div *ngSwitchCase="15">number is 15</div>
+        <div *ngSwitchCase="25">number is 25</div>
+        <div *ngSwitchDefault>not 5,15,25</div>
+    </div>
+
+
+ -->
+<!-- services
+
+    central repository
+    if we are using a piece of code we want to use repeadly in more than one component insted of writing the code angain and again we can write in a central repository and can use in anywhere
+
+    we need to create a new folder and a new file called name.service.ts and there we can directly use export class class name,method name and write the logic
+    here we are using console.log
+
+    export class loggingService(string:status) {
+        logToConsole(){
+            console.log(status);
+        }
+    }
+
+    now we can use this by importing this class to the required component and we create an instance of the service to send our value to the service
+
+    here we import {loggingService} from "../services/logging.service";
+    then on where we need to use this service there we create an instance of the service
+    let loggingservice =new loggingService();
+    then we send data through the object
+    loggingService.logToConsole("data");
+
+ -->
+
+<!-- Injecting services into components using Dependency Injection through Providers in the Angular
+    it is the actual way of using services in angular
+
+    injecting the dependence is called dependency injection
+    in above example the logToConsole method is dependent on loggingServices class
+
+    we can inject dependencies using the constructor
+    in constructor we need to specift the srvice in the braces
+
+    constructor(private loggingservice:loggingService)
+    in @component add provisers=[servicename]
+    so that angular understandfs that to give you the instance of the service 
+
+    then we can directly use the method using the service
+
+    this.loggingService.logToConsole("data");
+
+ -->
+
+
+<!-- Create New Service and use the service as Data in Angular. Pass Data from service to Components
+
+    first we created  a ts file in the services folder with an export class having the user required methods
+    here we created the export class with users[] and also a method to add user to the users list
+    export class UserListService{
+                users:{name:string,status:string}[]=[{name:"shashi",status:"active"},{name:"ravi",status:"active"},{name:"ramu",status:"active"}];
+                
+                addUser(name:string,status:string){
+                    this.users.push({name,status});
+                    }
+                }
+    then we imported the class into the required ts file and added to providers:[] ,providers:[UserListService] in @component,then we created  a menthod on Init to initialize users and added to the local variable,
+    ngOnInit() {
+        .users=this.userlistservice.users;
+    }
+    then using a *ngFor we can add the list of users one by one
+
+ -->
+
+
+<!--  
+
+    hierchial injection
+
+    if we provide the service in each component this does not create a single instance insted these have multiple instances,one for each component provided and this lead to data updation issues 
+    insted we can provide in highest possible component so that all the components,services will share the instance
+    app module is the highest possible component share he instance across components,services
+    next highest possible is app component share across the all child components.
+
+    to use heirarchial injection we need to import the service but not attach the provide evert where we use we should only use in the highest possible component
+
+ -->
+<!-- inject a service into another service
+
+    create a new service with an export class with required methods an then import the service into the required service and above the export class add @injectable() decorator so that angular can understand that the file is injectable also import injectable from @wangular/core also add a constructure and create an instance of the service in the export class 
+
+    now import both the services into app.mododule.ts and the class names into the providers
+
+    now we can use the methods of the injected service in this service.
+
+ -->
+
+
+<!-- 
+    communication between the components using services through eventEmitter
+
+    Sharing data between components using property binding/event binding with the help of @Input/@Output decorators helps in making our components independent. This strategy makes our components easily reusable and can be tested easily.However, as our application grows and our components get more complex with deep nesting over time, it then becomes difficult to manage the data flow using these @Input/@Output decorators.In such scenarios, it is more efficient to pass data around between components using a shared service. A service is simply an Angular class that acts as a central repository.
+
+    here we created an eventemitter in user.list.services.ts as
+    sattuUpdated =new EventEmitter<string>();
+    and added the emit in the addUser method as 
+    this.sattuUpdated.emit(status);          so that whenever the user clicks the button addUser we get the status
+    now we need to catch that data so we are now going to catch the data in users.component.ts in OnInit method
+    
+    this.userlistservice.sattuUpdated.subscribe(data =>{
+      alert(data);
+    })
+
+ -->
+
+<!-- 
+  routing
+  Introduction to Angular Routing. Set up and load routes with RouterModule in angular.
+
+    The Router enables navigation by interpreting a browser URL as an instruction to change the view.
+    In a single-page app, you change what the user sees by showing or hiding portions of the display that correspond to particular components, rather than going out to the server to get a new page. in pratical the apps we build need to move between views we have defined
+
+    first we nee to create components of the views and then in app.module.ts we need to import {RouterModule, Routes} from '@angular/router' and then we need to create an instance of the routes and give  paths for the components to load as we say as 
+        const AppRoutes : Routes=[
+            {path:" ",component:HomeComponent},          //localhost:4200
+            {path:'users',component:UsersComponent},
+            {path:'categories',component:CategoriesComponent}
+        ];
+        then add RouterModule.forRoot(AppRoutes) in the imports[]
+        after that we can add the views in tha main app.component.html file and then add router-outlet attribute
+        <router-outlet></router-outlet>
+ 
+  -->
+
+<!-- 
+  Navigating Links in the Page using RouterLink in the angular
+
+    if we use herf attribute the page reloads everytime we click on the link i.e., the pages reche server and fetch the page every time.
+    to avoid this angular provides a special attribute called routerLink with this special attribute only the contents which need to be change only those are refreshed not the entire page.
+
+    after giveing routerLink we can directly access the views using the url as http://localhost:4200/categories,http://localhost:4200/users,http://localhost:4200/
+
+          and add <a [routerLink]="['/users',3,'rajeev','active']">get Details of Rajeev</a>
+
+  -->
+
+
+<!-- 
+  styling the active router link  using routerLinkaAtive,routerLinkActiveOptions
+
+    here we are styling the router link so that when a view is selected only that link is highlighted and remaining all the links be as normal 
+    to achive this we need to add routerLinkaAtive beside the routerLink 
+    so that whenever we click on that tag only that view highlight but here the urls are somewhat same like http://localhost:4200/categories, http://localhost:4200/users, http://localhost:4200/
+    so we get home active when ever the users or categories views are active because the view url is http://localhost:4200 and we are having /users after the url for users(the url matches partially so that urls also get activated ) and so on ,
+    to avoid this we need to add another property in the tag as  routerLinkActiveOptions as
+    [routerLinkActiveOptions]='{exact:true}'
+    now we get users active when we click on users but not the home and users.
+
+  -->
+
+<!-- 
+  Navigate between pages using router programmatically in Typescript code in angular
+
+    to use router programmatically in ts we need to import Router from @angular/router and then pass it as a parameter in constructor and create an instane for that and then 
+    we can usse this in any method 
+    here we created a click action by creating a method on a buttion to move from home to categories
+    the method goes as 
+    constructor(router:Router){}
+    method (){
+        this.router.navigate('here we can give the link as url')
+        or
+        this.router./navigateurl([' here we need to give the url inside the tags'])
+    } 
+
+-->
+
+
+<!-- 
+  Passing and Fetching Parameters to Routes using ActivatedRoute snapshot in Angular
+    
+    using the above routerLinkActive we can go to the page we want to navigate using the url but we cannot get the data need for that page,to use that we need to use Activated route 
+
+    first we need to specify the path for that view in AppRoutes but here we need to specify the identifiers not the actual data so that not only the data we provided in the appRoutes only work but also the data which is currently using in the url may display there.this uses snapshot of the data so that it uses the data specified in the url and displays in the view.
+    first we need to create a variable in ts then we need to pass the instance as a parameter in constructor asssigning a variable to it ( route:ActivatedRoute)
+    then using OnInit method we need to populate the variable with routeName.snapshot.params['identifier']
+    then we need to use the identifiers in thml using string interpolation
+
+    constructor(private route:ActivatedRoute){}
+      ngOnInit(): void {
+        this.user = {
+        id:this.route.snapshot.params['id'],
+        name:this.route.snapshot.params['name'],
+        status:this.route.snapshot.params['status']
+        }
+      }
+     HTML:
+	id:{{id}},name:{{name}},status:{{status}}
+  -->
+
+
+<!-- 
+  Fetch Route Parameters Reactively using Params Subscribe with ActivatedRoute in angular
+    listen dynamic data
+
+    here when we try to move from one url to another using the RouterLink there occurs a problem that the data doesn't load, to overcome this we use subscribe(which always listens to the linked element) this subscribe is third party property which belong to  RxJS.
+    after the snapshot function we use this outside of the object created first we need to subscribe so we add this.instance.params.subscribe((data:Params)=>{}) then re assign the data using binding do that data takes dynamically the example code folls as
+        this.route.params.subscribe((data:Params)=>{
+        this.user = {
+            id:data['id'],
+            name:data['name'],
+            status:data['status']
+            }
+        })
+
+ -->
+
+
+<!-- 
+  Passing Query Parameters and Fragments to the Url Route with the Template and Program in Angular
+
+    touse query params we have two methods 
+    1.using template :
+    here we add queryparams,fragments beside the Routerlink as
+    <a [routerLink]="['/users',3,'rajeev','active']"
+    [queryParams]="{page:1,search:'rajeev'}"
+    [fragment]="'load"'>get Details of Rajeev</a>
+
+    2.using .ts
+    import router from @angular/router
+    pass private routerName:Router as a parameter in constructor
+    then create a method with routerName.navigate(['path'],{queryparams:{},fragment:''})
+    example:
+    getRamuDetails(){
+        this.router.navigate(['/users','2','ramu','inactive'],{queryParams:{page:2,search:'ramu'},fragment:'load'})
+    }
+    now link the method to any html
+ -->
+
+
+<!-- 
+  Retrieving Query Parameters and Fragments from the URL through Typescript Code in the angular
+
+    wecan retrive the query parameters and fragments in ts in 2 ways.
+    1.using snapshot:
+    routeName.snapshot.queryparams and routeName.snapshot.fragment 
+    we get both parameters and fragments
+
+    2. using subscribe:
+    routeName.queryparams.subscribe(data=>{})
+    routeName.fragment.subscribe(data=>{})
+
+ -->
+
+
+<!-- 
+  Setting up the child or Nested Routes using the children key in routing module in the Angular
+    
+    child routing can be done by using children in the path of parent and giving the path and component in the chilldren and adding router-outlet tag in the html parent element
+where we want to project tat child element.
+
+    {path:'users',component:UsersComponent,children:[
+    {path:':id/:name/:status',component:UserComponent}
+  ]},
+    
+    HTML:
+	<router-outlet></router-outlet>
+
+  -->
+
+
+<!-- 
+  Preserve or merge the query parameters by forwarding with queryparamsHandling in Angular
+
+    if we are navigating from one page to another page using the query perams and we need to send that queryperams to next page .
+    we can do this using QueryParamsHandling as
+    QueryParamsHandling:'preserve'
+    we need to give the QueryParamsHandling:'preserve' below the routerName.navigate([])
+    below is an example to show the QueryParamsHandling in a button where it triggers a method on click to navigate to edit page. here we are using queryparamsHandling:'preserve' to pass the queryParams to edit page.
+
+    html:
+    <div>
+        <button class="btn btn-primary" (click)="userEdit()">Edit</button>
+    </div>
+    in ts:
+    userEdit(){
+        this.router.navigate(['/users',this.user.id,'edit'],{queryParams:{page:2,search:'ramu'},fragment:'load'});
+        // QueryParamsHandling:'preserve';
+  
+  -->
+
+
+<!-- 
+  Implement Custom 404 Page adding wildcard Route, redirectTo option in the angular routing module
+
+    in an app we created if user types anyurl that isn't creted by us then the page doesnt load and doesnt tell anything to the user. to avoid this we create a 404 Error page here is the way to create a custom 404 page
+    first we need to create a component and name it
+    then we need to add the content into the component
+    then add the path for the component in the app.module.ts AppRoutes
+    this gives the 404 page when we add it in url, to make it show everytime when we add any url that doesnt exist we can add a new path as {path:'**',redirectTo:'Error component path'
+    now whenever the users type the url that doesnt exist in the app it automatically redirect to 404 page.
+
+    ng g c pageNotFound
+    load content in that pageNotFound component
+    add {path:'not-found',component:PageNotFoundComponent},
+  {path:'**',redirectTo:'not-found'} in AppRoute
+
+ -->
+
+
+<!-- 
+  Separate all the Routing configuration code into another file app-routing.module in the angular
+
+    generally we can write the routing in the app.module.ts but it gets messier when we are working with a large number of files to get over it we can add a separate file in the app.component ,import all components here, create AppRoutes here ,define ngModel by importing it from angular/core ,inside ng model add imports:RouterModule.forRoot(AppRoutes) and exports:[RouterModule] then export the class 
+    and after that in app.module.ts we can add it as a module by importing the class in the ngModel imports:[]
+
+    import { NgModule } from "@angular/core";
+    import {RouterModule, Routes} from '@angular/router'
+    import { HomeComponent } from './home/home.component';
+    import { UsersComponent } from './users/users.component';
+    import { CategoriesComponent } from './categories/categories.component';
+    import { UserComponent } from './user/user.component';
+    import { EditUserComponent } from './edit-user/edit-user.component';
+    import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
+    const appRoutes : Routes=[
+        {path:'',component:HomeComponent},          //localhost:4200
+        {path:'users',component:UsersComponent,children:[
+        {path:':id/:name/:status',component:UserComponent},
+        {path:':id/edit',component:EditUserComponent},
+        ]},
+        {path:'categories',component:CategoriesComponent},
+        {path:'not-found',component:PageNotFoundComponent},
+        {path:'**',redirectTo:'not-found'}
+    ];
+
+    @NgModule({
+        imports: [
+            RouterModule.forRoot(appRoutes),
+        ],
+        exports:[RouterModule]
+        
+    })
+    export class AppRoutingModule {
+
+    }
+
+    app.module.ts:
+	@ngModel({ imports:['exported class']})
+
+
+  -->
+
+
+<!-- 
+  sending static data to the routes
+
+    if we need to catch the data first we need to load it in AppRoutes:routes=[    {path:'',component:HomeComponent,data:{page:1,name:'kk',status:'active'}}]
+    then we need to import on init in the component in the path
+    then add private route:ActivatedRoute in the constructor as a parameter
+    then implement OnInit method
+      ngOnInit (){
+        this.route.data.subscribe((data:Data)=>{
+        console.log(data);
+        })
+      }
+
+ -->
+
+
+<!--
+  canActivate route guard
+
+    when a user enters into a component we use this to check that user is elegible to use this component
+
+    for example :
+    in a project we have two components and we need to give authorization to move from a acomponent to another to do this we use canActivate
+
+    first we create a guard and in the creation we select canActivate and automatically the function is created
+    ng generate guard name
+    then we import inject from @angular/core and Router from @angular/router
+    then in export class we create a const with injectible as for the router
+    const router = inject(Router);
+    then we get token from the localstorage  
+    const token =localStorage.getItem('token');
+    then we write the logic for the execution
+    if (token){
+    return true;
+    }else {
+      router.navigate([''])
+      return false;
+    }
+
+  -->
+
+
+<!--
+  canActivateChild route guard
+
+    we have routes and child routes in a component this determines that if we need to load the child component or not based on some conditions we use canActivateChild route guard
+
+  
+
+
+
+  -->
+
+
+<!-- 
+  canDeactivate route guard
+
+    when a user want to leave a component that we use this to check whether a user is authorized to leave baseed on some conditions
+
+
+
+
+ -->
+
+
+<!-- 
+  Resolve
+
+    when user want to leave a component we use this to make sure that ke data from a database or use an API
+
+    A resolve guard is a type of a router guard, Design Authentication and Authorization. A resolve guard can load necessary data for a component by reading record IDs from route parameters, asynchronously load the data and have it ready by the time the component activates and initializes.
+
+ 
+  -->
+
+
+<!-- 
+  CanLoad
+
+    when we want to load a particular module froma a component and want others to load after based on some particular conditions haen we use this CanLoad route guard.
+
+
+
+
+
+
+ -->
+
+
+<!-- 
+  observable - observer
+
+    You can often use observables instead of promises to deliver values asynchronously. Similarly, observables can take the place of event handlers. Finally, because observables deliver multiple values, you can use them where you might otherwise build and operate on arrays.
+    Both observables and promises help us work with asynchronous functionality in JavaScript. Promises deal with one asynchronous event at a time, while observables handle a sequence of asynchronous events over a period of time. Emit multiple values over a period of time.
+
+    angular heavily uses observables concepts
+    therese are from another third party library  RxJS
+    to handle asynchronus operations
+    observebles doesnt depend on component i.e., observebles keep on going even the component is destroyed or we move from one component to another component.  
+    if we misuse these things there weill be memory problem and also the project performance will be decreased
+    to overcome this we have unsubscribe in the RxJS .
+    weneed to unsubscribe from the subscription whenever we exit the component 
+
+
+    here we are subscribig in OnInit method
+    this.intervalSubscription =interval(1000).subscribe(count=>{
+      console.log(count);
+    })
+    it keep on going even we destroy the componentso now we unscbscribe
+      ngOnDestroy(): void {
+    this.intervalSubscription.unsubscribe();
+    }
+
+  -->
+
+
+<!--
+  creating our own observeble,observer.next
+
+    we can create our own observable same like a object in the angular.
+    we need to create a new observer as a object then write some code in it
+    then create a new variable outside the customObserver and assign the customObservable.subscribe((data)=>{})
+    then we can pass the data into the console.
+
+       let customObservable = new Observable(observer => {
+      let count=0;
+      setInterval(()=>{
+        observer.next(count);
+        count++;
+      },1000);
+    });
+
+    this.customSubscription=customObservable.subscribe((data)=> {
+      console.log(data);
+    })
+  }
+
+
+
+  -->
+
+<!-- 
+  Understand rxjs Operators in the observables before sending to the subscribe data in angular
+
+    operators are features present i  RxJS.
+    whenever we get data from the observable we get RAW DATA.
+    operators work is to manipulate the data before sending to the subscribe.
+    Before sending data to the subscribe method in Angular, it's important to understand and utilize RxJS operators to transform, filter, or manipulate the data emitted by observables. RxJS operators allow you to perform a wide range of operations on observables to modify the emitted data before consuming it.
+
+    Here are a few commonly used RxJS operators:
+
+    map: Transforms each emitted value by applying a function to it.
+
+            let customObservable = new Observable(observer => {
+        let count=0;
+        setInterval(()=>{
+          observer.next(count);
+          count++;
+          if (count>2){
+            observer.complete();
+          }
+          if (count >3){
+            observer.error('count is greater than 3');
+          }
+        },1000);
+      });
+
+      this.customSubscription=customObservable.pipe(map(data => Number(data) * 2)).subscribe((data)=> {
+        console.log(data);
+      }, error =>{
+        console.log(error);
+      }, ()=>{
+        console.log('complete')
+      })
+    }
+
+    filter: Filters the emitted values based on a provided condition.
+
+    take: Emits only a specified number of values from the start of the stream.
+
+    mergeMap/flatMap: Maps each value to an inner observable and flattens the result into a single stream.
+
+    switchMap: Maps each value to an inner observable and switches to emitting values from the most recent inner observable.
+
+    concatMap: Maps each value to an inner observable and concatenates the results, maintaining the order of emissions.
+
+    debounceTime: Delays emissions and discards values that are rapidly followed by another value within a specified time frame.
+
+    distinctUntilChanged: Filters out consecutive duplicate values emitted by the observable.
+
+    retry: Re-subscribes to the source observable a specified number of times in case of error.
+    
+    These are just a few examples, and RxJS provides a wide range of operators to cater to different use cases. By utilizing these operators, you can transform and manipulate the data emitted by observables before subscribing to it, enabling you to work with the data in a desired format or perform specific operations.
+
+  -->
+
+
+<!-- 
+  apply multiple operators to RxJS observable
+
+    to apply multiple operators we need to implement them in pipe()before the subscribe()
+    in this example we are using filter operator filter(), it basically tells the observer that if it returns true only the subscriber need to work or else it should be calm.
+    .pipe(filter(data=>{
+      return Boolean(Number(data)>0);
+    here the observer skips the values less than or equal to 0 and works only when the value is greater than 0. 
+ -->
+
+
+<!-- 
+  Understand the Subjects in rxjs angular. Implement the Subject for cross-component communication
+
+    In RxJS, a subject is a special type of observable that can emit values to multiple subscribers. This is in contrast to a regular observable, which can only emit values to one subscriber at a time. Subjects are often used for cross-component communication, where you need to emit values from one component to another.
+
+    we can add subject for cross component communiation same as event emitter
+    but here we are using subject because of good performance and it can handle multiple values.
+
+    we created a service and populated with creating a class and creating a new new subject
+    subjectTest = new Subject<Boolean>();
+    and also created a method to testSubject
+    subjectTes() {
+      this.subjectTest.next(true);
+    }
+    then wecreated a button with click function calling a method in user component
+    <button (click)="subjectClick()">click for Subject</button>
+    we passedand the service in constructor and created an instance of that and added the method in the ts of that component
+    constructor(private userservice: userService){}
+    subjectClick() {
+      this.userservice.subjectTes();
+    }
+    then in appcomponent we added a div to display the content when clicked the button we used ngIf for the condition
+    <div *ngIf="test">button for subject clicked!</div>
+    then in ts we passedand the service in constructor and created an instance of that service and in OnInit we added the subscription 
+    constructor(private userservice: userService){}
+    ngOnInit(): void {
+      this.userservice.subjectTest.subscribe((data) => {
+        this.test = data;
+        });
+      }
+
+ -->
+
+
+<!-- 
+  FORM HANDLING
+
+    There are two main approaches to form handling in Angular: template-driven forms and reactive forms.
+
+    Template-driven forms are the simpler of the two approaches. They use Angular directives to bind form elements to data in your component. This makes it easy to create and manage forms, but it can also be less flexible and more difficult to debug.
+    in simple words most of the code will be in the template(html file).
+
+    Reactive forms are more complex, but they offer more flexibility and control over your forms. They use Angular reactive forms services to manage form data and validation. This makes it easier to create complex forms and to debug them.
+    in simpple words most of the code will be in the ts file.
+    
+ -->
+
+
+<!-- 
+  Template-driven
+
+    in order to work with template driven forms we need to import formsModule from @angular/forms and add forms fodule in the imports of the app.module.ts
+    Template-driven forms use two-way data binding to update the data model in the component as changes are made in the template and vice versa.
+    You can build almost any kind of form with an Angular template —login forms, contact forms, and pretty much any business form. You can lay out the controls creatively and bind them to the data in your object model. You can specify validation rules and display validation errors, conditionally allow input from specific controls, trigger built-in visual feedback, and much more.
+
+    first we need to import FormsModule from @angular/forms in the app.module.ts and add FormsModule in the imports:[]
+    first we need to create a form and give input tags to read data from the user and add ngModel in the tag and also add (ngSubmit)="onFormSubmit()" on the form tag 
+    then in the ts we can implement the logical code for execution
+
+ -->
+
+
+<!-- 
+  Advantages of using ViewChild in the Template Driven Form to get Form Object in angular
+
+    here we are using the @ViewChild (can be imported from @angular/core) decorator to get the locqal refrence from the template and assign it to a variable of type NgForm this can be imported from @angular/forms
+
+    @ViewChild('f') signUpForm!: NgForm;
+    onFormSubmit() {
+      console.log(this.signUpForm);
+      }
+    }
+
+ -->
+
+<!-- 
+  Explore the Form Object and  Validations for the Template Driven Forms. Show Validation Messages for the Form in Angular.
+
+    The form object in a template-driven form is a special object that represents the form itself. It provides a number of properties and methods that can be used to interact with the form, such as:
+
+    controls: An object that contains all of the form controls.
+    valid: A boolean property that indicates whether the form is valid.
+    submit(): A method that submits the form.
+    The controls property is an index signature, which means that it can be accessed by its index. For example, to access the email control, you would use the following syntax:
+
+    f.controls['email']
+
+    The email control is a FormControl object, which provides a number of properties and methods that can be used to interact with the control, such as:
+
+    value: The value of the control.
+    valid: A boolean property that indicates whether the control is valid.
+    touched: A boolean property that indicates whether the control has been touched.
+    The form object is a powerful tool that can be used to interact with forms in a template-driven form. By exploring the properties and methods of the form object, you can learn how to control the form and interact with it in a variety of ways.
+
+    Here are some examples of how you can use the form object to interact with a form:
+
+    To check if the form is valid, you can use the following code:
+
+    if (f.valid) {
+      // The form is valid.
+    } else {
+      // The form is not valid.
+    }
+
+    To get the value of the email control, you can use the following code:
+    Code snippet
+    const email = f.controls['email'].value;
+    Use code with caution. Learn more
+    To check if the email control is valid, you can use the following code:
+
+    if (f.controls['email'].valid) {
+      // The email control is valid.
+    } else {
+      // The email control is not valid.
+    }
+
+    To submit the form, you can use the following code:
+    Code snippet
+    f.submit();
+
+ -->
+
+
+<!-- 
+  Using ngModel for Two Way & One Way Binding to populate Data in Template Driven Forms
+
+    The ngModel directive is used to bind data in a template-driven form. It can be used for both one-way and two-way binding.
+
+    One-way binding means that the data flows from the component to the view. This is the most common type of binding. For example, you can use one-way binding to bind the value of a input element to a property in the component.
+
+    Two-way binding means that the data flows from the component to the view and from the view to the component. This is a more powerful type of binding that allows you to update the data in the component from the view and vice versa.
+
+    To use ngModel for two-way binding, you need to use the [(ngModel)] syntax. For example, the following code binds the value of the input element to the username property in the component and vice versa:
+    <input type="text" [(ngModel)]="username">
+
+    To use ngModel for one-way binding, you can use the [ngModel] syntax. For example, the following code binds the value of the input element to the username property in the component, but the data in the component cannot be updated from the view:
+    <input type="text" [ngModel]="username">
+
+ -->
+
+
+<!-- 
+  ngModelGroup
+
+    ngModelGroup is a directive that can be used to group form controls together in a template-driven form. This can be useful for a number of reasons, such as:
+
+    ->Validating a group of form controls together: You can use ngModelGroup to validate a group of form controls together. This means that all of the controls in the group must be valid before the form can be submitted.
+    ->Grouping related form controls together: You can use ngModelGroup to group related form controls together. This can make your form more organized and easier to understand.
+    ->Accessing a group of form controls as a single object: You can use ngModelGroup to access a group of form controls as a single object. This can be useful for a number of tasks, such as submitting the form or validating the form.
+
+ -->
+
+
+<!-- 
+  Set Value and Patch Value for populating Form Elements in the Template Driven Forms in Angular
+
+    Set Value and Patch Value are two methods that can be used to populate form elements in a template-driven form.
+
+    Set Value is used to set the value of all of the form controls in a form. This means that if you have a form with 10 form controls, setValue will set the value of all 10 controls.
+
+    Patch Value is used to set the value of a specific form control in a form. This means that if you have a form with 10 form controls, and you want to set the value of the username control, you can use patchValue to do so.
+
+    we need to pass the values as they visible in console>ngForm>value if we are gettig objects of values we need to set them as objects of values
+    then only the setValue or patchValue will work.
+
+    here we added a new button fillUserdata to fill the data whenever the button is clicked then we used the local refrence @viewChild to set the data as
+      @ViewChild('f') signUpForm!: NgForm;
+      onFillData() {
+        this.signUpForm.form.setValue({
+          userData: {
+            email: 'sasiprab@gmail.com',
+            username: 'shashi',
+          },
+          gender: 'male',
+          about: 'nothing to say',
+        });
+      }
+
+    if we want to partially populate the data then we need to use patchValue in place of setValue.
+
+ -->
+
+
+<!-- 
+  Get and Reset the Form Data controls in the Template Driven Forms in the Angular
+
+    to set data in ts we use @viewChild local refrence of the form using ngForm and then create a object and populate it with the names of the data after that we create a method and assign it to when the method take place then in the method we assign the .value data to the created object.
+
+      user = {
+      username: '',
+      email: '',
+      gender: '',
+      about: '',
+    };
+    onFormSubmit() {
+      console.log(this.signUpForm);
+      this.submitted = true;
+      this.user.username = this.signUpForm.value.userData.username;
+      this.user.email = this.signUpForm.value.userData.email;
+      this.user.gender = this.signUpForm.value.gender;
+      this.user.about = this.signUpForm.value.about;
+      this.signUpForm.reset();
+    }
+    we can reset the form using form.reset() method
+
+ -->
+
+
+<!-- 
+  reactive forms
+  Introduction to Reactive Forms Approach. Create FormGroup and FormControl with code in Angular
+
+    Reactive forms are more complex, but they offer more flexibility and control over your forms. They use Angular reactive forms services to manage form data and validation. This makes it easier to create complex forms and to debug them.
+      in simpple words most of the code will be in the ts file.
+
+    after creatinga form in the template we need to tell the angular that its a form to do that first we need to add [formGroup]='Formname' in the template beside the form tag and add (ngSubmit)='method()' make the form as submittable and when submit call a method and add formControlName="name" in the every input tag then in the ts we need to tell that its a form group 
+    signUpForm!: FormGroup;
+    then in OnInit() method create a populate the Formname with a object of data as
+    ngOnInit(): void {
+      this.signUpForm = new FormGroup({
+        username: new FormControl('null'),
+        email: new FormControl('null'),
+        gender: new FormControl('female'),
+      });
+    }
+    then onSubmit print the form with
+    onSubmit() {
+      console.log(this.signUpForm);
+    }
+
+ -->
+
+<!-- 
+  apply validations to reactive forms
+
+    to apply validators to the reactive forms we need to add validators beside data object values in OnInit() method as
+    ngOnInit(): void {
+      this.signUpForm = new FormGroup({
+        username: new FormControl('', Validators.required),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        gender: new FormControl('male'),
+      });
+    }
+    and to add in template we need to write formname.get('valuename')?.validator
+    so that teh template dynamically works according to the input here
+    <span class="help-block" *ngIf=" !signUpForm.get('username')?.valid && signUpForm.get('username')?.touched">Enter Valid Name</span>
+
+ -->
+
+
+<!-- 
+  Grouping the Controls in the Reactive Forms using FormGroupName in FormGroup
+
+    to group the form controls we can specify the formgroupname and add the values and validators as like above
+
+    ngOnInit(): void {
+      this.signUpForm = new FormGroup({
+        userData: new FormGroup({
+          username: new FormControl('', Validators.required),
+          email: new FormControl('', [Validators.required, Validators.email]),
+        }),
+        gender: new FormControl('male'),
+      });
+    }
+    and in templatewe need to add formGroupName beside the div element in which wwe defined the group
+    <div formGroupName="userData">
+    now in the HTML the  previous refrence to the inputs dont work because we are having a new formGroup in mmiddle to counter this we need to add new groupname in the () of the refrence as
+    <span class="help-block" *ngIf=" !signUpForm.get('newGroupNmae.username')?.valid && signUpForm.get('newGroupNmae.username')?.touched">Enter Valid Name</span>
+
+ -->
+
+
+<!-- 
+  Dynamically Add Form Controls with FormArray FormArrayName in the Reactive Forms
+
+    To dynamically add form controls in reactive forms, you can use the FormArray class. A FormArray is an array of form controls. You can add new form controls to a FormArray using the push() method.
+    we can do this by creating a new form control and calling the push() method on the FormArray.
+    The push() method will add the new form control to the end of the FormArray.
+    we can then use the new form control to collect data from the user.
+    For example, you could have a form that allows users to add multiple hobbies. You could create a FormArray property called hobbies. Then, you could use the push() method to dynamically add new form controls to the hobbies FormArray when the user clicks a button. The new form controls would allow users to enter the names of their hobbies.
+
+    we added in OnInit>
+
+
+ -->
+
+
+<!-- 
+  Pipes in Angular
+
+    Pipes are a powerful way to transform data in Angular templates. They are simple functions that take an input value and return a transformed value. Pipes are often used to format data, such as dates, numbers, and strings.
+
+    Chaining Multiple Pipes:
+    Pipes can be chained together to perform multiple transformations on a single value. For example, you could use the uppercase pipe and the date pipe to format a date as an uppercase string.
+
+    {{ date | uppercase | date }}
+    Use code with caution. Learn more
+    This would return the date in the format "JANUARY 01, 2023".
+
+    Parameterized Pipes:
+    Some pipes can take parameters to control the way they transform data. For example, the currency pipe can take a parameter to specify the currency symbol.
+
+    {{ price | currency:'USD' }}
+    Use code with caution. Learn more
+    This would format the price as a currency string, using the USD symbol.
+
+    Here are some examples of built-in pipes in Angular:
+
+    date - Formats a date value.
+    uppercase - Converts a string to uppercase.
+    lowercase - Converts a string to lowercase.
+    currency - Converts a number to a currency string.
+    percent - Converts a number to a percentage string.
+    decimal - Converts a number to a decimal string.
+
+ -->
+
+
+<!-- 
+  Creating a custom Pipe and passing parameters to the Pipe using Transform method
+
+    first we need to create a pipe using cli as
+    ng generate pipe pipename
+    then in pipe we need to write the logic for the pipe function in the export class > transform method()
+    export class ShortenPipe implements PipeTransform {
+      transform(value: any) {
+        return value.substr(0, 5);
+      }
+    }
+    then the pipe can be used in a template by using the pipe name followed by the input value.
+    <h1>{{ user | shorten }}</h1>
+    if want to pass any parameters we can if the pipe supports them to taht we need to specify the arguments in the pipe.
+    export class ShortenPipe implements PipeTransform {
+      transform(value: any, limit: number) {
+        if (value.length > limit) {
+          return value.substr(0, limit) + '...';
+        }
+        return value;
+      }
+    }
+    here the pipe can be used in a template by using the pipe name :parameter followed by the input value.
+
+  -->
+
+
+<!-- 
+  Creating Filter Pipe in the Angular. Filter the list of data with search string
+
+    To create a filter pipe in Angular, you need to create a class that implements the PipeTransform interface. The PipeTransform interface has a single method called transform(). The transform() method takes the input value and returns the filtered value.
+
+    import { Pipe, PipeTransform } from '@angular/core';
+
+    @Pipe({
+      name: 'filter',
+    })
+    export class FilterPipe implements PipeTransform {
+      transform(value: any[], filterString: string): string[] {
+        if (value.length === 0 || filterString === '') {
+          return value;
+        }
+        const users = [];
+
+        for (const user of value) {
+          if (user === filterString) {
+            users.push(user);
+          }
+        }
+        return users;
+      }
+    }
+
+     <div *ngFor="let user of userList | filter : filterString" class="my-3">
+
+ -->
+
+
+<!-- Pure and Impure Pipes
+
+    In Angular, pipes are a powerful way to transform data in templates. They can be used to format data, validate data, and perform other tasks.
+
+    There are two types of pipes in Angular: pure pipes and impure pipes.
+
+    Pure pipes are pipes that only depend on their input value. This means that if the input value does not change, the output of the pipe will not change either.
+
+    Impure pipes are pipes that can depend on other factors, such as the current time or the state of the application. This means that the output of an impure pipe can change even if the input value does not change.
+
+    Difference between Pure and Impure Pipes:
+    The main difference between pure and impure pipes is that pure pipes are more efficient. This is because pure pipes only need to be executed once, regardless of how many times the template is rendered. Impure pipes, on the other hand, need to be executed every time the template is rendered, even if the input value does not change.
+
+    Another difference between pure and impure pipes is that pure pipes are easier to test. This is because the output of a pure pipe is always deterministic, meaning that it will always be the same given the same input value. Impure pipes, on the other hand, can be more difficult to test because their output can change depending on factors other than the input value.
+
+    When to use Pure and Impure Pipes?
+    In general, you should use pure pipes whenever possible. This is because pure pipes are more efficient and easier to test. However, there are some cases where you may need to use impure pipes. For example, if you need to use the current time or the state of the application in your pipe, you will need to use an impure pipe.
+ -->
+
+
+<!-- 
+    What is the async pipe?
+    The async pipe is a pipe in Angular that allows you to subscribe to an Observable or Promise and get the latest value from it. The async pipe automatically subscribes to the Observable or Promise when the component is initialized and unsubscribes when the component is destroyed.
+
+    Why do we use it?
+    The async pipe is useful for displaying data that is fetched from an API or other asynchronous source. It is also useful for displaying data that is generated by a function that takes some time to execute.
+
+    How to use it?
+    To use the async pipe, you need to wrap the Observable or Promise in the pipe. For example, if you have an Observable called user that returns a user object, you can use the async pipe to display the user's name in your template like this:
+
+    <input type="text" [(ngModel)]="user | async.name">
+ -->
+
+
+<!-- Introduction to HTTP Request
+
+    An HTTP request is a message sent from a client to a server requesting a resource. The request message includes the resource's URI, the client's HTTP method, and any request headers. The server then responds to the request with an HTTP response message.
+
+    Making a HTTP POST Request through HttpClientModule
+
+    The HttpClientModule is a Angular module that provides an HTTP client API for Angular applications. The HttpClient service class in the HttpClientModule can be used to make HTTP requests.
+
+    To make a HTTP POST request through the HttpClientModule, you can use the post() method. The post() method takes a URL as its first argument and an object as its second argument. The object contains the request body and the request headers.
+
+    The following code shows how to make a HTTP POST request through the HttpClientModule:
+
+    import { HttpClient } from '@angular/common/http';
+
+    export class AppComponent {
+
+      constructor(private http: HttpClient) {}
+
+      ngOnInit() {
+        const url = '/api/users';
+        const body = {
+          name: 'John Doe',
+          email: 'johndoe@example.com'
+        };
+
+        this.http.post(url, body).subscribe((res: Response) => {
+          console.log(res);
+        });
+      }
+
+    }
+
+    In this code, the post() method is used to make a HTTP POST request to the URL /api/users. The request body is an object containing the user's name and email address. The subscribe() method is used to subscribe to the response from the server. The subscribe() method takes a callback function as its argument. The callback function will be called when the response is received from the server.
+ -->
+
+ 
+<!-- 
+    <!-- Make Http Get Request and use RxJs Operators to transform the response in the Angular:
+    Here is an example of how to make an HTTP GET request and use RxJS operators to transform the response in Angular:
+
+    import { HttpClient } from '@angular/common/http';
+    import { map, tap } from 'rxjs/operators';
+
+    export class AppComponent {
+
+      constructor(private http: HttpClient) {}
+
+      ngOnInit() {
+        const url = '/api/users';
+
+        this.http.get(url)
+          .pipe(
+            map((res: Response) => res.json()),
+            tap((users: User[]) => console.log(users))
+          )
+          .subscribe();
+      }
+
+    }
+    Use code with caution. Learn more
+    In this code, the get() method is used to make a HTTP GET request to the URL /api/users. The pipe() operator is used to chain together RxJS operators. The map() operator is used to transform the response from the server into a JSON object. The tap() operator is used to log the users to the console. The subscribe() method is used to subscribe to the response from the server.
+
+    The map() operator takes a function as its argument. The function is called with the response from the server as its argument. The function must return a new value. In this case, the function returns the JSON object that is returned from the server.
+
+    The tap() operator takes a function as its argument. The function is called with the transformed value as its argument. The function can be used to perform any additional processing on the value before it is emitted from the observable. In this case, the function logs the users to the console.
+
+    The subscribe() method takes a callback function as its argument. The callback function is called when the response is received from the server. The callback function can be used to handle the response from the server.
+ -->
+
+
+<!-- Define the Types of HttpClient Request Data using the interface and Generic Type in the Angular:
+
+    The HttpClientModule in Angular provides a generic type for the get(), post(), put(), and delete() methods. This allows you to specify the type of the data that will be returned from the server.
+
+    For example, the following code shows how to make a HTTP GET request and specify that the data that will be returned from the server is an array of users:
+
+    Code snippet
+    import { HttpClient } from '@angular/common/http';
+
+    export class AppComponent {
+
+      constructor(private http: HttpClient) {}
+
+      ngOnInit() {
+        const url = '/api/users';
+
+        this.http.get<User[]>(url)
+          .subscribe((users: User[]) => {
+            console.log(users);
+          });
+      }
+
+    }
+
+    In this code, the get() method is used to make a HTTP GET request to the URL /api/users. The <User[]> type parameter specifies that the data that will be returned from the server is an array of users. The subscribe() method is used to subscribe to the response from the server. The subscribe() method takes a callback function as its argument. The callback function is called when the response is received from the server.
+
+    The callback function in this case takes an array of users as its argument. The callback function can be used to handle the response from the server.
+
+    Here is an example of an interface that you can use to define the types of the data that will be returned from the server:
+
+    Code snippet
+    interface User {
+      id: number;
+      name: string;
+      email: string;
+    }
+
+    This interface defines the properties that will be returned from the server. The id property is the user's ID, the name property is the user's name, and the email property is the user's email address.
+ -->
+
+
+<!-- 
+    Using Services for Http request with HttpClient. Communicate Services and Components in Angular:
+    Using Services for HTTP Requests with HttpClient
+
+    In Angular, you can use services to make HTTP requests. Services are classes that are responsible for performing tasks that are not related to the view. This allows you to keep your components clean and easy to maintain.
+
+    To make an HTTP request with a service, you can use the HttpClient service. The HttpClient service is a class that provides methods for making HTTP requests.
+
+    The following code shows how to make an HTTP GET request with a service:
+
+    Code snippet
+    import { HttpClient } from '@angular/common/http';
+
+    @Injectable({
+      providedIn: 'root'
+    })
+    export class HttpService {
+
+      constructor(private http: HttpClient) {}
+
+      getUsers() {
+        const url = '/api/users';
+
+        return this.http.get(url);
+      }
+
+    }
+
+    <!-- In this code, the HttpClient service is injected into the HttpService class. The HttpService class has a method called getUsers(). The getUsers() method makes a HTTP GET request to the URL /api/users. The getUsers() method returns an Observable object. The Observable object will emit the response from the server when it is received.
+
+    Communicating Services and Components in Angular
+
+    In Angular, services and components can communicate with each other using dependency injection. Dependency injection is a technique for injecting dependencies into a class. This allows you to keep your classes loosely coupled and easy to test.
+
+    To communicate a service and component in Angular, you can use the @Inject decorator. The @Inject decorator tells Angular to inject the service into the component.
+
+    The following code shows how to communicate a service and component in Angular:
+
+    Code snippet
+    import { Component, OnInit } from '@angular/core';
+    import { HttpService } from './http.service';
+
+    @Component({
+      selector: 'my-app',
+      templateUrl: './app.component.html',
+      styleUrls: ['./app.component.css']
+    })
+    export class AppComponent implements OnInit {
+
+      constructor(private httpService: HttpService) {}
+
+      ngOnInit() {
+        const users = this.httpService.getUsers();
+
+        users.subscribe((users: User[]) => {
+          console.log(users);
+        });
+      }
+
+    }
+
+    In this code, the AppComponent class has a property called httpService. The httpService property is a reference to the HttpService class. The AppComponent class also has a method called ngOnInit(). The ngOnInit() method is called when the component is initialized. The ngOnInit() method makes a HTTP GET request to the URL /api/users and subscribes to the response. The ngOnInit() method then logs the users to the console.
+ -->
+
+<!-- 
+    Implement HTTP Delete Request with HttpClient in Angular.:
+    To implement an HTTP DELETE request with HttpClient in Angular, you can use the following code:
+
+    Code snippet
+    import { HttpClient } from '@angular/common/http';
+
+    @Injectable({
+      providedIn: 'root'
+    })
+    export class HttpService {
+
+      constructor(private http: HttpClient) {}
+
+      deleteUser(id: number) {
+        const url = `/api/users/${id}`;
+
+        return this.http.delete(url);
+      }
+
+    }
+    Use code with caution. Learn more
+    In this code, the HttpClient service is injected into the HttpService class. The HttpService class has a method called deleteUser(). The deleteUser() method makes a HTTP DELETE request to the URL /api/users/ with the specified ID. The deleteUser() method returns an Observable object. The Observable object will emit the response from the server when it is received.
+
+    To use the deleteUser() method, you can inject the HttpService class into your component and then call the deleteUser() method. For example, the following code shows how to use the deleteUser() method in a component:
+
+    Code snippet
+    import { Component, OnInit } from '@angular/core';
+    import { HttpService } from './http.service';
+
+    @Component({
+      selector: 'my-app',
+      templateUrl: './app.component.html',
+      styleUrls: ['./app.component.css']
+    })
+    export class AppComponent implements OnInit {
+
+      constructor(private httpService: HttpService) {}
+
+      ngOnInit() {
+        const id = 1;
+
+        this.httpService.deleteUser(id).subscribe((res: Response) => {
+          console.log(res);
+        });
+      }
+
+    }
+    Use code with caution. Learn more
+    In this code, the AppComponent class has a property called httpService. The httpService property is a reference to the HttpService class. The AppComponent class also has a method called ngOnInit(). The ngOnInit() method is called when the component is initialized. The ngOnInit() method makes a HTTP DELETE request to the URL /api/users/ with the specified ID and subscribes to the response. The ngOnInit() method then logs the response to the console.
+ -->
+
+<!-- 
+    Error handling in HTTP request calls with HttpClient is important for ensuring that your application can gracefully handle errors and provide a good user experience. There are a few different ways to handle errors with HttpClient, but the most common approach is to use the catchError operator from RxJS.
+
+    The catchError operator allows you to specify a function that will be called if an error occurs during the execution of an Observable. This function can be used to handle the error in any way you see fit, such as logging the error, displaying a message to the user, or retrying the request.
+
+    Here is an example of how to use the catchError operator to handle errors with HttpClient:
+
+    import { HttpClient } from '@angular/common/http';
+    import { catchError } from 'rxjs/operators';
+
+    export class MyService {
+
+      constructor(private http: HttpClient) {}
+
+      getSomething() {
+        return this.http.get('https://example.com/something')
+          .pipe(catchError(error => {
+            console.log(error);
+            return Observable.of({ data: [] });
+          }));
+      }
+    }
+
+    In this example, the getSomething() method uses the catchError operator to handle any errors that occur during the get() request. If an error occurs, the catchError operator will be called and the error will be logged to the console. The catchError operator will then return an Observable that emits an empty array. This ensures that the getSomething() method will always return an Observable, even if an error occurs.
+
+    There are other ways to handle errors with HttpClient, but the catchError operator is the most common approach. By using the catchError operator, you can ensure that your application can gracefully handle errors and provide a good user experience.
+ -->
+
+
+<!-- 
+  Sending HTTP Headers in the API Request Call with HTTPClient in the angular
+
+    We send HTTP headers in API request calls for a variety of reasons, including:
+      To provide authentication information. This is often done by sending an Authorization header with the value of an access token or bearer token.
+      To specify the content type of the request body. This is important for ensuring that the server can correctly interpret the request body.
+      To specify the caching policy for the request. This can be used to control whether the request is cached by the server or not.
+      To specify the Accept header. This tells the server what content types the client is able to accept.
+      To specify other metadata about the request. This could include things like the user agent, the client's IP address, or the request's priority.
+      In short, HTTP headers are a way for the client to communicate additional information to the server about the request. This information can be used by the server to determine how to process the request and to provide a better user experience.
+
+    Here are some of the most commonly used HTTP headers:
+
+      Accept: Specifies the content types that the client is able to accept.
+      Authorization: Specifies the authentication information for the request.
+      Content-Type: Specifies the content type of the request body.
+      Cache-Control: Specifies the caching policy for the request.
+      User-Agent: Specifies the user agent of the client.
+      Referer: Specifies the URL of the page that the request was made from.
+      Host: Specifies the hostname of the server that the request is being made to.
+    
+ -->
+
+https://www.youtube.com/watch?v=ibn2yAomxp8
