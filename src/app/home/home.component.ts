@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
 import { Record } from './record.model';
@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   deleterecord = true;
   search: string = '';
   error = null;
+  @ViewChild(AddRecordComponent) addrecordcomponent!: AddRecordComponent;
 
   records: Record[] = [];
 
@@ -34,11 +35,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['/addRecord'], { queryParams: { mode: 'create' } });
   }
 
-  updateRecord(user: any) {
-    this.router.navigate(['/addRecord'], { queryParams: { mode: 'update' } });
+  updateRecord(record: Record) {
+    // this.addrecordcomponent.OnUpdate(record);
+    this.router.navigate(['/addRecord'], {
+      queryParams: { mode: 'update' },
+    });
   }
 
-  onDelete(user: any) {
+  onDelete(record: Record) {
     this.router.navigate(['/addRecord'], { queryParams: { mode: 'delete' } });
   }
   getRecords() {
@@ -59,7 +63,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (response: Record[]) => {
-          //console.log(response);
+          console.log(response);
         },
         (error) => {
           this.error = error.message;

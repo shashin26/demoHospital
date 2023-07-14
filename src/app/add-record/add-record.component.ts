@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../sign-up/user.model';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-add-record',
@@ -12,7 +11,7 @@ import { map } from 'rxjs';
   styleUrls: ['./add-record.component.css'],
 })
 export class AddRecordComponent implements OnInit {
-  @ViewChild('f') addRecordForm!: NgForm;
+  @ViewChild('d') addRecordForm!: NgForm;
   record = {
     Name: '',
     roomNo: '',
@@ -30,15 +29,28 @@ export class AddRecordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const mode = this.activatedRoute.snapshot.queryParams['mode'];
-    console.log(mode);
+    // const mode = this.activatedRoute.snapshot.queryParams['mode'];
+    // const userString = this.activatedRoute.snapshot.queryParams['user'];
+    // let record: any = null;
+    // if (mode === 'update' && userString) {
+    //   try {
+    //     record = JSON.parse(userString);
+    //   } catch (error) {
+    //     console.error('Error parsing user string:', error);
+    //   }
+    // }
+    // if (record) {
+    //   this.OnUpdate(record);
+    // }
   }
-  OnUpdate(user: any) {
+
+  OnUpdate(record: any) {
+    // console.log(record);
     // this.addRecordForm.form.setValue({
-    //   userName: user.userName,
-    //   roomNo: user.roomNo,
-    //   mobileNo: user.mobileNo,
-    //   age: user.age,
+    //   userName: record.userName,
+    //   roomNo: record.roomNo,
+    //   mobileNo: record.mobileNo,
+    //   age: record.age,
     // });
   }
 
