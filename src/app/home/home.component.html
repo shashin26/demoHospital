@@ -1,0 +1,52 @@
+<div class="container p-2">
+  <div class="form-group p-2">
+    <div>
+      <h5>Patients</h5>
+    </div>
+    <div id="header">
+      <span>
+        <a class="px-2" (click)="addRecord()"
+          ><i class="fa-solid fa-plus"></i
+        ></a>
+      </span>
+      <div>
+        <label for="search">Search : </label>
+        <input type="text" [(ngModel)]="search" />
+      </div>
+    </div>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Options</th>
+        <th scope="col">Name</th>
+        <th scope="col">Room no.</th>
+        <th scope="col">mobile</th>
+        <th scope="col">Age</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of records | filter : search" id="tr">
+        <td scope="col">
+          <span
+            ><a
+              class="px-2"
+              routerLink="/addRecord"
+              (click)="updateRecord(record)"
+              ><i class="fa-regular fa-pen-to-square"></i
+            ></a>
+          </span>
+          <span
+            ><a class="px-2" routerLink="/addRecord" (click)="onDelete(record)"
+              ><i class="fa-regular fa-trash-can"></i
+            ></a>
+          </span>
+        </td>
+        <td scope="col">{{ record.Name }}</td>
+        <td scope="col">{{ record.roomNo }}</td>
+        <td scope="col">{{ record.mobileNo }}</td>
+        <td scope="col">{{ record.age }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

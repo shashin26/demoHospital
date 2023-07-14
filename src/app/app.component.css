@@ -1,0 +1,20 @@
+a {
+  text-decoration: none;
+}
+li {
+  width: 100px;
+}
+.container {
+  background-color: rgba(197, 197, 197, 0.76);
+}
+label {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+input {
+  width: 100%;
+}
+section {
+  min-height: 700px;
+}

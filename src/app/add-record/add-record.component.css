@@ -1,0 +1,38 @@
+.container {
+  border-radius: 5px;
+  position: absolute;
+  top: 15%;
+  left: 13%;
+  width: 800px;
+  height: 300px;
+}
+.heading {
+  text-align: center;
+  font-weight: 800;
+}
+.button {
+  position: relative;
+  padding: 10px;
+  right: -81.5%;
+  width: 80px;
+}
+input {
+  width: 75%;
+}
+label {
+  font-size: medium;
+  font-weight: 600;
+}
+#row {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+#subcontainer {
+  padding-top: 20px;
+}
+.new-container {
+  padding-left: 10%;
+  padding-right: 10%;
+}

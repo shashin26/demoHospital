@@ -1,0 +1,83 @@
+<form class="container rounded" (ngSubmit)="onFormSubmit()" #f="ngForm">
+  <div class="new-container">
+    <div class="row" id="subcontainer">
+      <div class="heading">
+        <h3 [hidden]="!appcomponent.signup">Sign Up</h3>
+        <h3 [hidden]="appcomponent.signup">Sign In</h3>
+      </div>
+      <div id="row">
+        <label for="userName">User Name</label>
+        <input
+          class="form-control"
+          type="text"
+          name="userName"
+          id="userName"
+          ngModel
+          required
+        />
+      </div>
+      <div id="row">
+        <label for="password">Password</label>
+        <input
+          class="form-control"
+          type="password"
+          name="password"
+          id="password"
+          ngModel
+          required
+        />
+      </div>
+      <div id="row" [hidden]="!appcomponent.signup">
+        <label for="repassword"> Confirm Password</label>
+        <input
+          class="form-control"
+          type="password"
+          name="repassword"
+          id="repassword"
+          ngModel
+          required
+        />
+      </div>
+      <div>
+        <span
+          class="text-danger"
+          *ngIf="
+            f.controls['password'] &&
+            f.controls['repassword'] &&
+            f.controls['password'].touched &&
+            f.controls['repassword'].touched &&
+            f.controls['password'].value != f.controls['repassword'].value
+          "
+        >
+          password does not match, recheck the password
+        </span>
+        <span [hidden]="noUser">
+          No User Found <br />
+          please Sign Up
+        </span>
+      </div>
+    </div>
+    <div>
+      <button
+        class="btn btn-secondary"
+        [hidden]="!appcomponent.signup"
+        [disabled]="
+          f.controls['password'].touched &&
+          f.controls['repassword'].touched &&
+          f.controls['password'].value != f.controls['repassword'].value
+        "
+        (click)="signUp()"
+      >
+        Sign Up
+      </button>
+      <button
+        class="btn btn-secondary"
+        id="btn"
+        [hidden]="appcomponent.signup"
+        (click)="signIn()"
+      >
+        Sign In
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,54 @@
+<form
+  class="container rounded form-group"
+  (ngSubmit)="onFormSubmit()"
+  #f="ngForm"
+>
+  <div id="subcontainer">
+    <div class="heading">
+      <h3 [hidden]="!home.updaterecord">Update Admit Form</h3>
+      <h3 [hidden]="home.updaterecord">Admit Form</h3>
+    </div>
+    <div class="input-form">
+      <div class="new-container">
+        <div id="row">
+          <label for="Name">Name</label>
+          <input
+            class="form-control"
+            type="text"
+            name="Name"
+            id="Name"
+            ngModel
+          />
+        </div>
+        <div id="row">
+          <label for="roon No">Room No.</label>
+          <input class="form-control" type="text" name="roomNo" ngModel />
+        </div>
+        <div id="row">
+          <label for="mobile No">Mobile No.</label>
+          <input class="form-control" type="text" name="mobileNo" ngModel />
+        </div>
+        <div id="row">
+          <label for="Age">Age</label>
+          <input class="form-control" type="text" name="age" ngModel />
+        </div>
+      </div>
+    </div>
+    <div class="button">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [hidden]="home.updaterecord"
+      >
+        Save
+      </button>
+      <button
+        class="btn btn-warning"
+        type="submit"
+        [hidden]="!home.updaterecord"
+      >
+        Update
+      </button>
+    </div>
+  </div>
+</form>

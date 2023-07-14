@@ -1,0 +1,22 @@
+.container {
+  border-radius: 5px;
+  position: absolute;
+  top: 15%;
+  left: 13%;
+  width: 800px;
+  height: fit-content;
+}
+
+input {
+  width: 300px;
+}
+span {
+  padding-left: 10px;
+}
+th {
+  text-align: left;
+}
+#header {
+  display: flex;
+  justify-content: space-between;
+}
