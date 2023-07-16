@@ -2,8 +2,8 @@
   border-radius: 5px;
   position: absolute;
   top: 15%;
-  left: 13%;
-  width: 800px;
+  left: 10%;
+  width: 80%;
   height: 300px;
 }
 .heading {
@@ -13,8 +13,8 @@
 .button {
   position: relative;
   padding: 10px;
-  right: -81.5%;
   width: 80px;
+  left: 91.5%;
 }
 input {
   width: 75%;

@@ -57,16 +57,18 @@
         </span>
       </div>
     </div>
-    <div>
+    <div class="button-class">
       <button
         class="btn btn-secondary"
         [hidden]="!appcomponent.signup"
         [disabled]="
+          f.controls['password'] &&
+          f.controls['repassword'] &&
           f.controls['password'].touched &&
           f.controls['repassword'].touched &&
           f.controls['password'].value != f.controls['repassword'].value
         "
-        (click)="signUp()"
+        (click)="onFormSubmit()"
       >
         Sign Up
       </button>

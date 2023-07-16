@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private http: HttpClient,
     private appcomponent: AppComponent
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getRecords();
@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (response: Record[]) => {
-          console.log(response);
+          //console.log(response);
         },
         (error) => {
           this.error = error.message;

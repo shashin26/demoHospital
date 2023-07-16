@@ -1,42 +1,23 @@
-<header
-  class="d-flex justify-content-between fixed-top px-5"
-  style="background-color: brown"
->
+<header class="d-flex justify-content-between fixed-top px-5" style="background-color: brown">
   <div>
     <h1>
-      <a class="text-white" routerLink="/" routerLinkActive="active"
-        >Demo Hospital</a
-      >
+      <a class="text-white" href="/" routerLinkActive="active">Demo Hospital</a>
     </h1>
   </div>
   <div>
-    <li class="btn btn-primary m-2" *ngIf="!isLoggedIn">
-      <a
-        class="nav-item text-white"
-        routerLink="/signUp"
-        routerLinkActive="active"
-        (click)="homeSignUp()"
-        >Sign Up</a
-      >
-    </li>
-    <li class="btn btn-primary m-2 text-white" *ngIf="!isLoggedIn">
-      <a
-        class="nav-item text-white"
-        routerLink="/signUp"
-        routerLinkActive="active"
-        (click)="homeSignIn()"
-        >Sign In</a
-      >
-    </li>
-    <li class="btn btn-primary m-2 text-white" *ngIf="isLoggedIn">
-      <a
-        class="nav-item text-white"
-        routerLink="/"
-        routerLinkActive="active"
-        (click)="logOut()"
-        >Log Out</a
-      >
-    </li>
+    <ng-container *ngIf="!isLoggedIn">
+      <li class="btn btn-primary m-2">
+        <a class="nav-item text-white" (click)="homeSignUp()">Sign Up</a>
+      </li>
+      <li class="btn btn-primary m-2 text-white">
+        <a routerLinkActive="active" (click)="homeSignIn()">Sign In</a>
+      </li>
+    </ng-container>
+    <ng-container *ngIf="isLoggedIn">
+      <li class="btn btn-primary m-2 text-white">
+        <a class="nav-item text-white" (click)="logOut()">Sign Out</a>
+      </li>
+    </ng-container>
   </div>
 </header>
 <section>
@@ -48,10 +29,7 @@
     style="background-color: brown"
   >
     <div class="col-md-4 d-flex align-items-center">
-      <a
-        href="/"
-        class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"
-      >
+      <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
         <svg class="bi" width="30" height="24">
           <use xlink:href="#bootstrap"></use>
         </svg>

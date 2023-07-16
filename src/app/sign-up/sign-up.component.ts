@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { NgForm } from '@angular/forms';
@@ -11,11 +11,10 @@ import { AuthGuardService } from '../services/auth-guard.service';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css'],
 })
-export class SignUpComponent {
+export class SignUpComponent implements OnInit {
   user = {
     userName: '',
     password: '',
-    repassword: '',
   };
   users: User[] = [];
   passwordMatch = true;
@@ -23,7 +22,6 @@ export class SignUpComponent {
   error = null;
   noUser = true;
   signupbutton = true;
-  //@ViewChild(AppComponent) appcomponent!: AppComponent;
 
   constructor(
     private router: Router,
@@ -34,20 +32,44 @@ export class SignUpComponent {
     this.appcomponent.signup = true;
   }
 
+  ngOnInit(): void {
+    if (!this.appcomponent.signup) {
+
+    }
+  }
+
   signUp() {
     this.appcomponent.signup = false;
     this.signUpForm.reset();
   }
+
   signIn() {
-    // this.appcomponent.isLoggedIn = true;
-    //this.getUsers()
-    this.router.navigate(['/home']);
+    const userName = this.signUpForm.value.userName;
+    const password = this.signUpForm.value.password;
+
+    this.authService.checkMatch(userName, password)
+      .then((result) => {
+        if (result === 'match') {
+          this.appcomponent.isLoggedIn = true;
+          this.router.navigate(['/home']);
+        } else if (result === 'check password') {
+          alert("Please Check the Password");
+          this.signUpForm.reset()
+        } else {
+          alert("User Not Found, Please Sign Up");
+          this.signUpForm.reset()
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
+
   onFormSubmit() {
     if (this.signUpForm.value.password === this.signUpForm.value.repassword) {
       this.user.userName = this.signUpForm.value.userName;
       this.user.password = this.signUpForm.value.password;
-      this.signUpForm.reset();
+
       this.http
         .post(
           'https://userdata-89ae3-default-rtdb.firebaseio.com/users.json',
@@ -55,9 +77,9 @@ export class SignUpComponent {
         )
         .subscribe((res) => {
           console.log(res);
-          //this.getPosts();
         });
-      //this.postForm.reset();
+
+      this.signUpForm.reset();
     }
   }
 }
