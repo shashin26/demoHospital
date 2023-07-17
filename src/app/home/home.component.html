@@ -1,7 +1,7 @@
 <div class="container p-2">
   <div class="form-group p-2">
-    <div>
-      <h5>Patients</h5>
+    <div class="heading text-center">
+      <h2 class="text-bg-success rounded-1">Patient Records</h2>
     </div>
     <div id="header">
       <span>
@@ -10,15 +10,15 @@
         ></a>
       </span>
       <div>
-        <label for="search">Search : </label>
-        <input type="text" [(ngModel)]="search" />
+        <label class="h5" for="search">Search : </label>
+        <input class="rounded" type="text" [(ngModel)]="search" />
       </div>
     </div>
   </div>
   <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col">Options</th>
+        <th class="px-4" scope="col">Options</th>
         <th scope="col">Name</th>
         <th scope="col">Room no.</th>
         <th scope="col">mobile</th>
@@ -26,7 +26,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let record of records | filter : search" id="tr" >
+      <tr
+        *ngFor="
+          let record of records.slice(
+            (currentPage - 1) * itemsPerPage,
+            currentPage * itemsPerPage
+          ) | filter : search
+        "
+        id="tr"
+      >
+        <!-- <tr *ngFor="let record of records | filter : search" id="tr" > -->
         <td scope="col">
           <span
             ><a
@@ -49,4 +58,23 @@
       </tr>
     </tbody>
   </table>
+  <div class="table-bottom">
+    <!-- <a><i class="fa-solid fa-arrow-left fa-beat-fade"></i></a>
+    <a><i class="fa-solid fa-arrow-right fa-beat-fade"></i></a> -->
+    <button
+      class="btn btn-primary"
+      [disabled]="currentPage === 1"
+      (click)="goToPreviousPage()"
+    >
+      Previous
+    </button>
+    <p>Page :{{ currentPage }} of {{ totalPages }}</p>
+    <button
+      class="btn btn-primary"
+      [disabled]="currentPage === totalPages"
+      (click)="goToNextPage()"
+    >
+      Next
+    </button>
+  </div>
 </div>

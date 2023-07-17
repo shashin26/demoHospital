@@ -10,6 +10,12 @@ import { HomeComponent } from './home/home.component';
 import { AddRecordComponent } from './add-record/add-record.component';
 import { FilterPipe } from './filter.pipe';
 
+// const appRoutes: Routes = [
+//   { path: '', component: AppComponent },
+//   { path: 'home', component: HomeComponent },
+//   { path: 'addRecord', component: AddRecordComponent },
+//   { path: 'signUp', component: SignUpComponent },
+// ];
 const appRoutes: Routes = [
   { path: '', component: AppComponent },
   { path: 'home', component: HomeComponent },

@@ -86,7 +86,8 @@
       <!-- Delete button -->
       <button
         class="btn btn-danger"
-        type="submit"
+        type="button"
+        (click)="onDelete()"
         [hidden]="deleterecord"
       >
         Delete

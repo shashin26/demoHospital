@@ -1,7 +1,7 @@
 .container {
   border-radius: 5px;
   position: absolute;
-  top: 15%;
+  top: 13%;
   left: 10%;
   width: 80%;
   height: fit-content;
@@ -19,4 +19,15 @@ th {
 #header {
   display: flex;
   justify-content: space-between;
+}
+.table-bottom {
+  border-radius: 3px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+button {
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 80px;
 }

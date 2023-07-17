@@ -15,6 +15,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   search: string = '';
   error = null;
   @ViewChild(AddRecordComponent) addrecordcomponent!: AddRecordComponent;
+  currentPage = 1;
+  itemsPerPage = 10;
 
   records: Record[] = [];
 
@@ -22,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private http: HttpClient,
     private appcomponent: AppComponent
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getRecords();
@@ -31,13 +33,31 @@ export class HomeComponent implements OnInit, OnDestroy {
   addRecord() {
     this.router.navigate(['/addRecord'], { queryParams: { action: 'create' } });
   }
+  get totalPages(): number {
+    return Math.ceil(this.records.length / this.itemsPerPage);
+  }
+  goToPreviousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  goToNextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
 
   updateRecord(record: Record) {
-    this.router.navigate(['/addRecord'], { queryParams: { action: 'update', id: record.key } });
+    this.router.navigate(['/addRecord'], {
+      queryParams: { action: 'update', id: record.key },
+    });
   }
 
   onDelete(record: Record) {
-    this.router.navigate(['/addRecord'], { queryParams: { action: 'delete', id: record.key } });
+    this.router.navigate(['/addRecord'], {
+      queryParams: { action: 'delete', id: record.key },
+    });
   }
 
   getRecords() {

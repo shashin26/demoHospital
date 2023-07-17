@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HomeComponent } from '../home/home.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../sign-up/user.model';
@@ -30,8 +30,9 @@ export class AddRecordComponent implements OnInit {
   constructor(
     public home: HomeComponent,
     private activatedRoute: ActivatedRoute,
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params) => {
@@ -67,7 +68,9 @@ export class AddRecordComponent implements OnInit {
     // Perform an HTTP request or any other method to fetch the record data by ID
     // For example:
     this.http
-      .get<RecordModel>(`https://userdata-89ae3-default-rtdb.firebaseio.com/records/${id}.json`)
+      .get<RecordModel>(
+        `https://userdata-89ae3-default-rtdb.firebaseio.com/records/${id}.json`
+      )
       .subscribe((response) => {
         if (response) {
           this.record = response;
@@ -111,5 +114,29 @@ export class AddRecordComponent implements OnInit {
           }
         );
     }
+    setTimeout(() => {
+      this.router.navigate(['/home']);
+    }, 1000);
+  }
+  onDelete() {
+    if (this.id) {
+      this.http
+        .delete(
+          `https://userdata-89ae3-default-rtdb.firebaseio.com/records/${this.id}.json`
+        )
+        .subscribe(
+          (res) => {
+            console.log(res);
+            this.home.getRecords();
+          },
+          (error) => {
+            console.error('Error:', error);
+            // Handle the error accordingly (display error message, perform fallback action, etc.)
+          }
+        );
+    }
+    setTimeout(() => {
+      this.router.navigate(['/home']);
+    }, 1000);
   }
 }
