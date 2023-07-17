@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../sign-up/user.model';
+import { RecordModel } from './record-get.model';
 
 @Component({
   selector: 'app-add-record',
@@ -12,7 +13,7 @@ import { User } from '../sign-up/user.model';
 })
 export class AddRecordComponent implements OnInit {
   @ViewChild('d') addRecordForm!: NgForm;
-  record = {
+  record: RecordModel = {
     Name: '',
     roomNo: '',
     mobileNo: '',
@@ -21,55 +22,94 @@ export class AddRecordComponent implements OnInit {
   users: User[] = [];
   error = null;
   keys: string[] = [];
+  addrecord = true;
+  updaterecord = true;
+  deleterecord = true;
+  id: string | null = null;
 
   constructor(
     public home: HomeComponent,
     private activatedRoute: ActivatedRoute,
     private http: HttpClient
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    // const mode = this.activatedRoute.snapshot.queryParams['mode'];
-    // const userString = this.activatedRoute.snapshot.queryParams['user'];
-    // let record: any = null;
-    // if (mode === 'update' && userString) {
-    //   try {
-    //     record = JSON.parse(userString);
-    //   } catch (error) {
-    //     console.error('Error parsing user string:', error);
-    //   }
-    // }
-    // if (record) {
-    //   this.OnUpdate(record);
-    // }
+    this.activatedRoute.queryParams.subscribe((params) => {
+      console.log('Query Parameters:', params);
+      const action = params['action'];
+      this.id = params['id'];
+
+      if (action == 'create') {
+        this.addrecord = false;
+        this.updaterecord = true;
+        this.deleterecord = true;
+      } else if (action == 'update') {
+        this.addrecord = true;
+        this.updaterecord = false;
+        this.deleterecord = true;
+        if (this.id) {
+          // Fetch the record data by ID and assign it to the input fields
+          this.fetchRecordData(this.id);
+        }
+      } else if (action == 'delete') {
+        this.addrecord = true;
+        this.updaterecord = true;
+        this.deleterecord = false;
+        if (this.id) {
+          // Fetch the record data by ID and assign it to the input fields
+          this.fetchRecordData(this.id);
+        }
+      }
+    });
   }
 
-  OnUpdate(record: any) {
-    // console.log(record);
-    // this.addRecordForm.form.setValue({
-    //   userName: record.userName,
-    //   roomNo: record.roomNo,
-    //   mobileNo: record.mobileNo,
-    //   age: record.age,
-    // });
+  fetchRecordData(id: string) {
+    // Perform an HTTP request or any other method to fetch the record data by ID
+    // For example:
+    this.http
+      .get<RecordModel>(`https://userdata-89ae3-default-rtdb.firebaseio.com/records/${id}.json`)
+      .subscribe((response) => {
+        if (response) {
+          this.record = response;
+        }
+      });
   }
 
   onFormSubmit() {
-    this.record.Name = this.addRecordForm.value.Name;
-    this.record.roomNo = this.addRecordForm.value.roomNo;
-    this.record.mobileNo = this.addRecordForm.value.mobileNo;
-    this.record.age = this.addRecordForm.value.age;
-    this.addRecordForm.reset();
-    this.http
-      .post(
-        'https://userdata-89ae3-default-rtdb.firebaseio.com/records.json',
-        this.record
-      )
-      .subscribe((res) => {
-        console.log(res);
-        //this.getPosts();
-        this.home.getRecords();
-      });
-    //this.postForm.reset();
+    if (!this.id) {
+      // Save operation
+      this.http
+        .post(
+          'https://userdata-89ae3-default-rtdb.firebaseio.com/records.json',
+          this.record
+        )
+        .subscribe(
+          (res) => {
+            console.log(res);
+            this.home.getRecords();
+          },
+          (error) => {
+            console.error('Error:', error);
+            // Handle the error accordingly (display error message, perform fallback action, etc.)
+          }
+        );
+    } else {
+      // Update operation
+      this.http
+        .put(
+          `https://userdata-89ae3-default-rtdb.firebaseio.com/records/${this.id}.json`,
+          this.record
+        )
+        .subscribe(
+          (res) => {
+            console.log(res);
+            this.home.getRecords();
+          },
+          (error) => {
+            console.error('Error:', error);
+            // Handle the error accordingly (display error message, perform fallback action, etc.)
+          }
+        );
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Record } from './record.model';
 import { AppComponent } from '../app.component';
 import { AddRecordComponent } from '../add-record/add-record.component';
@@ -12,9 +12,6 @@ import { AddRecordComponent } from '../add-record/add-record.component';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  addrecord = true;
-  updaterecord = true;
-  deleterecord = true;
   search: string = '';
   error = null;
   @ViewChild(AddRecordComponent) addrecordcomponent!: AddRecordComponent;
@@ -32,19 +29,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   addRecord() {
-    this.router.navigate(['/addRecord'], { queryParams: { mode: 'create' } });
+    this.router.navigate(['/addRecord'], { queryParams: { action: 'create' } });
   }
 
   updateRecord(record: Record) {
-    // this.addrecordcomponent.OnUpdate(record);
-    this.router.navigate(['/addRecord'], {
-      queryParams: { mode: 'update' },
-    });
+    this.router.navigate(['/addRecord'], { queryParams: { action: 'update', id: record.key } });
   }
 
   onDelete(record: Record) {
-    this.router.navigate(['/addRecord'], { queryParams: { mode: 'delete' } });
+    this.router.navigate(['/addRecord'], { queryParams: { action: 'delete', id: record.key } });
   }
+
   getRecords() {
     this.records = [];
     this.http
@@ -53,8 +48,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       )
       .pipe(
         map((response) => {
-          //console.log(response);
           for (const [key, value] of Object.entries(response)) {
+            value.key = key; // Assign the ID from the response to the record object
             this.records.push(value);
             this.error = null;
           }

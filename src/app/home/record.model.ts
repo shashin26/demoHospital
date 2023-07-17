@@ -4,4 +4,8 @@ export class Record {
   mobileNo!: string;
   age!: string;
   key?: string;
+
+  constructor(data: Partial<Record>) {
+    Object.assign(this, data);
+  }
 }
