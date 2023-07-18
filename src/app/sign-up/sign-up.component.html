@@ -2,8 +2,8 @@
   <div class="new-container">
     <div class="row" id="subcontainer">
       <div class="heading">
-        <h3 [hidden]="!appcomponent.signup">Sign Up</h3>
-        <h3 [hidden]="appcomponent.signup">Sign In</h3>
+        <h3 [hidden]="!logInOut.signup">Sign Up</h3>
+        <h3 [hidden]="logInOut.signup">Sign In</h3>
       </div>
       <div id="row">
         <label for="userName">User Name</label>
@@ -27,7 +27,7 @@
           required
         />
       </div>
-      <div id="row" [hidden]="!appcomponent.signup">
+      <div id="row" [hidden]="!logInOut.signup">
         <label for="repassword"> Confirm Password</label>
         <input
           class="form-control"
@@ -60,7 +60,7 @@
     <div class="button-class">
       <button
         class="btn btn-outline-primary"
-        [hidden]="!appcomponent.signup"
+        [hidden]="!logInOut.signup"
         [disabled]="
           f.controls['password'] &&
           f.controls['repassword'] &&
@@ -75,7 +75,7 @@
       <button
         class="btn btn-outline-primary"
         id="btn"
-        [hidden]="appcomponent.signup"
+        [hidden]="logInOut.signup"
         (click)="signIn()"
       >
         Sign In

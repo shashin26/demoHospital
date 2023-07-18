@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { logInOut } from './services/log-in-out.service';
 
 @Component({
   selector: 'app-root',
@@ -9,28 +10,26 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   title = 'demoHospital';
-  isLoggedIn = false;
-  signup = false;
-  constructor(private router: Router) { }
+  constructor(private router: Router,public logInOut:logInOut) { }
 
   ngOnInit(): void {
-    this.signup = true;
+    this.logInOut.signup = true;
   }
 
   homeSignUp() {
-    this.signup = true;
+    this.logInOut.signup = true;
     this.router.navigate(['/signUp'])
 
   }
 
   homeSignIn() {
-    this.signup = false;
+    this.logInOut.signup = false;
     this.router.navigate(['/signUp'])
   }
 
   logOut() {
-    this.signup = false;
-    this.isLoggedIn = false;
+    this.logInOut.signup = false;
+    this.logInOut.isLoggedIn = false;
     this.router.navigate(['/signUp'])
   }
 }

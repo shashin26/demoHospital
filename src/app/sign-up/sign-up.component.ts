@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppComponent } from '../app.component';
 import { NgForm } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { User } from './user.model';
-import { AuthGuardService } from '../services/auth-guard.service';
+import { AuthService } from '../services/auth.service';
+import { AppComponent } from '../app.component';
+import { logInOut } from '../services/log-in-out.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,29 +12,25 @@ import { AuthGuardService } from '../services/auth-guard.service';
   styleUrls: ['./sign-up.component.css'],
 })
 export class SignUpComponent {
-  user = {
+  user: User = {
     userName: '',
     password: '',
   };
-  users: User[] = [];
   passwordMatch = true;
   @ViewChild('f') signUpForm!: NgForm;
-  error = null;
+  error: string | null = null;
   noUser = true;
   signupbutton = true;
 
   constructor(
     private router: Router,
-    public appcomponent: AppComponent,
-    private http: HttpClient,
-    private authService: AuthGuardService
-  ) {
-    this.appcomponent.signup = false;
-  }
+    private authService: AuthService,
+    public logInOut: logInOut,
+  ) { }
 
   signUp() {
-    this.appcomponent.signup = false;
     this.signUpForm.reset();
+    this.router.navigate(['/signUp']);
   }
 
   signIn() {
@@ -43,16 +39,16 @@ export class SignUpComponent {
       const password = this.signUpForm.value.password;
 
       this.authService
-        .checkMatch(userName, password)
+        .signIn(userName, password)
         .then((result) => {
           if (result === 'match') {
-            this.appcomponent.isLoggedIn = true;
+            this.logInOut.isLoggedIn = true;
             this.router.navigate(['/home']);
           } else if (result === 'check password') {
-            alert('Please Check the Password');
+            alert('Please check the password');
             this.signUpForm.reset();
           } else {
-            alert('User Not Found, Please Sign Up');
+            alert('User not found, please sign up');
             this.signUpForm.reset();
           }
         })
@@ -64,19 +60,19 @@ export class SignUpComponent {
 
   onFormSubmit() {
     if (!this.signUpForm.value.userName || !this.signUpForm.value.password) {
-      alert('please fill the form');
+      alert('Please fill the form');
     } else {
       if (this.signUpForm.value.password === this.signUpForm.value.repassword) {
         this.user.userName = this.signUpForm.value.userName;
         this.user.password = this.signUpForm.value.password;
 
-        this.http
-          .post(
-            'https://userdata-89ae3-default-rtdb.firebaseio.com/users.json',
-            this.user
-          )
-          .subscribe((res) => {
+        this.authService
+          .signUp(this.user)
+          .then((res) => {
             console.log(res);
+          })
+          .catch((error) => {
+            console.error(error);
           });
 
         this.signUpForm.reset();

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Record } from './record.model';
 import { AppComponent } from '../app.component';
 import { AddRecordComponent } from '../add-record/add-record.component';
+import { logInOut } from '../services/log-in-out.service';
 
 @Component({
   selector: 'app-home',
@@ -23,8 +24,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private appcomponent: AppComponent
-  ) {}
+    private logInOut: logInOut
+  ) { }
 
   ngOnInit() {
     this.getRecords();
@@ -87,6 +88,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.appcomponent.isLoggedIn = false;
+    this.logInOut.isLoggedIn = false;
   }
 }

@@ -32,11 +32,11 @@ export class AddRecordComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private http: HttpClient,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params) => {
-      console.log('Query Parameters:', params);
+      //console.log('Query Parameters:', params);
       const action = params['action'];
       this.id = params['id'];
 

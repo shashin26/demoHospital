@@ -9,6 +9,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { HomeComponent } from './home/home.component';
 import { AddRecordComponent } from './add-record/add-record.component';
 import { FilterPipe } from './filter.pipe';
+import { AuthService } from './services/auth.service';
+import { AuthGuardService } from './services/auth-guard.service';
 
 // const appRoutes: Routes = [
 //   { path: '', component: AppComponent },
@@ -37,7 +39,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpClientModule,
   ],
-  providers: [HomeComponent],
+  providers: [HomeComponent, AuthService,AuthGuardService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
