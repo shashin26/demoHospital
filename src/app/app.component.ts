@@ -10,7 +10,7 @@ import { logInOut } from './services/log-in-out.service';
 })
 export class AppComponent implements OnInit {
   title = 'demoHospital';
-  constructor(private router: Router,public logInOut:logInOut) { }
+  constructor(private router: Router, public logInOut: logInOut) {}
 
   ngOnInit(): void {
     this.logInOut.signup = true;
@@ -18,18 +18,18 @@ export class AppComponent implements OnInit {
 
   homeSignUp() {
     this.logInOut.signup = true;
-    this.router.navigate(['/signUp'])
-
+    this.router.navigate(['/signUp']);
   }
 
   homeSignIn() {
     this.logInOut.signup = false;
-    this.router.navigate(['/signUp'])
+    this.logInOut.exist = false;
+    this.router.navigate(['/signUp']);
   }
 
   logOut() {
     this.logInOut.signup = false;
     this.logInOut.isLoggedIn = false;
-    this.router.navigate(['/signUp'])
+    this.router.navigate(['/signUp']);
   }
 }

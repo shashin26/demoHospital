@@ -34,3 +34,6 @@ input {
   padding-left: 10%;
   padding-right: 10%;
 }
+label {
+  font-weight: 600;
+}

@@ -32,7 +32,7 @@ export class AddRecordComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private http: HttpClient,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params) => {
@@ -88,7 +88,7 @@ export class AddRecordComponent implements OnInit {
         )
         .subscribe(
           (res) => {
-            console.log(res);
+            //console.log(res);
             this.home.getRecords();
           },
           (error) => {
@@ -105,7 +105,7 @@ export class AddRecordComponent implements OnInit {
         )
         .subscribe(
           (res) => {
-            console.log(res);
+            //console.log(res);
             this.home.getRecords();
           },
           (error) => {
@@ -126,7 +126,7 @@ export class AddRecordComponent implements OnInit {
         )
         .subscribe(
           (res) => {
-            console.log(res);
+            // console.log(res);
             this.home.getRecords();
           },
           (error) => {

@@ -4,7 +4,7 @@
   top: 13%;
   left: 10%;
   width: 80%;
-  height: fit-content;
+  height: 620px;
 }
 
 input {
@@ -30,4 +30,12 @@ button {
   padding-left: 10px;
   padding-right: 10px;
   width: 80px;
+}
+.page-input {
+  height: 30px;
+  width: 60px;
+}
+.page-item {
+  display: flex;
+  justify-content: space-evenly;
 }

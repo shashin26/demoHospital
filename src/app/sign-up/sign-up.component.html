@@ -16,6 +16,9 @@
           required
         />
       </div>
+      <div *ngIf="logInOut.exist" class="text-center text-danger fw-bold">
+        <span>{{ error }}</span>
+      </div>
       <div id="row">
         <label for="password">Password</label>
         <input
@@ -59,7 +62,7 @@
     </div>
     <div class="button-class">
       <button
-        class="btn btn-outline-primary"
+        class="btn btn-light"
         [hidden]="!logInOut.signup"
         [disabled]="
           f.controls['password'] &&
@@ -73,7 +76,7 @@
         Sign Up
       </button>
       <button
-        class="btn btn-outline-primary"
+        class="btn btn-light"
         id="btn"
         [hidden]="logInOut.signup"
         (click)="signIn()"

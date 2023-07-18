@@ -6,8 +6,10 @@
     <div id="header">
       <span>
         <a class="px-2" (click)="addRecord()"
-          ><i class="fa-solid fa-plus"></i
-        ></a>
+          ><i class="fa-solid fa-file-medical fa-beat" style="color: #ffffff">
+            add record</i
+          ></a
+        >
       </span>
       <div>
         <label class="h5" for="search">Search : </label>
@@ -42,12 +44,15 @@
               class="px-2"
               routerLink="/addRecord"
               (click)="updateRecord(record)"
-              ><i class="fa-regular fa-pen-to-square"></i
+              ><i class="fa-regular fa-pen-to-square" style="color: #438a00ce"></i
             ></a>
           </span>
           <span
             ><a class="px-2" routerLink="/addRecord" (click)="onDelete(record)"
-              ><i class="fa-regular fa-trash-can"></i
+              ><i
+                class="fa-regular fa-trash-can fa-shake"
+                style="color: #eb3b00"
+              ></i
             ></a>
           </span>
         </td>
@@ -68,7 +73,16 @@
     >
       Previous
     </button>
-    <p>Page :{{ currentPage }} of {{ totalPages }}</p>
+    <div class="page-item">
+      <p>Page :</p>
+      <input
+        class="page-input form-control"
+        type="number"
+        [(ngModel)]="currentPage"
+        (enter)="goToPage()"
+      />
+      <p>of {{ totalPages }}</p>
+    </div>
     <button
       class="btn btn-primary"
       [disabled]="currentPage === totalPages"

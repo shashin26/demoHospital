@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private http: HttpClient,
     private logInOut: logInOut
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getRecords();
@@ -48,8 +48,25 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.currentPage++;
     }
   }
+  goToPage(): void {
+    if (this.currentPage > 0 && this.currentPage <= this.totalPages) {
+      // Navigate to the specified page
+      // You can modify the route path based on your application's routing configuration
+      this.router.navigate(['/home'], {
+        queryParams: { page: this.currentPage },
+      });
+    } else {
+      // Reset the currentPage value to the nearest valid page
+      if (this.currentPage <= 0) {
+        this.currentPage = 1;
+      } else if (this.currentPage > this.totalPages) {
+        this.currentPage = this.totalPages;
+      }
+    }
+  }
 
   updateRecord(record: Record) {
+    //console.log(record);
     this.router.navigate(['/addRecord'], {
       queryParams: { action: 'update', id: record.key },
     });

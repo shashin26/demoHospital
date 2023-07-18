@@ -5,7 +5,7 @@ li {
   width: 100px;
 }
 .container {
-  background-color: rgba(197, 197, 197, 0.76);
+  background-color: rgba(36, 33, 33, 0.527);
 }
 label {
   display: inline-block;
@@ -16,5 +16,5 @@ input {
   width: 100%;
 }
 section {
-  min-height: 770px;
+  min-height: 780px;
 }

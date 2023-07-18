@@ -12,12 +12,6 @@ import { FilterPipe } from './filter.pipe';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 
-// const appRoutes: Routes = [
-//   { path: '', component: AppComponent },
-//   { path: 'home', component: HomeComponent },
-//   { path: 'addRecord', component: AddRecordComponent },
-//   { path: 'signUp', component: SignUpComponent },
-// ];
 const appRoutes: Routes = [
   { path: '', component: AppComponent },
   { path: 'home', component: HomeComponent },
@@ -39,7 +33,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpClientModule,
   ],
-  providers: [HomeComponent, AuthService,AuthGuardService],
+  providers: [HomeComponent, AuthService, AuthGuardService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { User } from './user.model';
 import { AuthService } from '../services/auth.service';
-import { AppComponent } from '../app.component';
 import { logInOut } from '../services/log-in-out.service';
 
 @Component({
@@ -21,12 +20,13 @@ export class SignUpComponent {
   error: string | null = null;
   noUser = true;
   signupbutton = true;
+  users: User[] = [];
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    public logInOut: logInOut,
-  ) { }
+    public logInOut: logInOut
+  ) {}
 
   signUp() {
     this.signUpForm.reset();
@@ -56,27 +56,45 @@ export class SignUpComponent {
           console.error(error);
         });
     }
+    this.logInOut.exist = false;
   }
 
   onFormSubmit() {
     if (!this.signUpForm.value.userName || !this.signUpForm.value.password) {
       alert('Please fill the form');
-    } else {
-      if (this.signUpForm.value.password === this.signUpForm.value.repassword) {
-        this.user.userName = this.signUpForm.value.userName;
-        this.user.password = this.signUpForm.value.password;
+    } else if (
+      this.signUpForm.value.password === this.signUpForm.value.repassword
+    ) {
+      this.authService
+        .getUsers()
+        .then((users) => {
+          const matchedUser = users.find(
+            (user) => user.userName === this.signUpForm.value.userName
+          );
 
-        this.authService
-          .signUp(this.user)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+          if (matchedUser) {
+            this.logInOut.exist = true;
+            this.error = 'User already exists';
+          } else {
+            this.user.userName = this.signUpForm.value.userName;
+            this.user.password = this.signUpForm.value.password;
 
-        this.signUpForm.reset();
-      }
+            this.authService
+              .signUp(this.user)
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+
+            this.signUpForm.reset();
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
+    this.logInOut.exist = false;
   }
 }
