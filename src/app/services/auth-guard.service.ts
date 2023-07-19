@@ -1,30 +1,16 @@
 import { Injectable } from '@angular/core';
-import { CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { logInOut } from '../services/log-in-out.service';
+import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { logInOut } from './log-in-out.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuardService {
+export class AuthGuardService implements CanActivate {
 
-  constructor(private readonly logInOut: logInOut) {}
+  constructor(private logInOut: logInOut) { }
 
-  canActivateChild(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean | UrlTree | Promise<boolean | UrlTree> {
+  canActivate(route: ActivatedRouteSnapshot): boolean {
     const isLoggedIn = this.logInOut.isLoggedIn;
-    if (route.parent.path === 'signUp' && !isLoggedIn) {
-      return false;
-    }
-    return true;
+    return isLoggedIn;
   }
 }
-
-const canActivateChild = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-  const isLoggedIn = this.authService.isLoggedIn();
-  if (route.parent.path === 'signUp' && !isLoggedIn) {
-    return false;
-  }
-  return true;
-};

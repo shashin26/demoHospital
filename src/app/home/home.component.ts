@@ -12,7 +12,7 @@ import { logInOut } from '../services/log-in-out.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   search: string = '';
   error = null;
   @ViewChild(AddRecordComponent) addrecordcomponent!: AddRecordComponent;
@@ -25,10 +25,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private http: HttpClient,
     private logInOut: logInOut
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getRecords();
+    console.log(this.logInOut.isLoggedIn);
+
   }
 
   addRecord() {
@@ -104,7 +106,4 @@ export class HomeComponent implements OnInit, OnDestroy {
       );
   }
 
-  ngOnDestroy(): void {
-    this.logInOut.isLoggedIn = false;
-  }
 }

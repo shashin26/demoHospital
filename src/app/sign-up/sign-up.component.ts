@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { User } from './user.model';
@@ -10,7 +10,7 @@ import { logInOut } from '../services/log-in-out.service';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css'],
 })
-export class SignUpComponent {
+export class SignUpComponent implements OnInit {
   user: User = {
     userName: '',
     password: '',
@@ -26,8 +26,13 @@ export class SignUpComponent {
     private router: Router,
     private authService: AuthService,
     public logInOut: logInOut
-  ) {}
+  ) { }
 
+  ngOnInit(): void {
+    this.logInOut.isLoggedIn = false;
+    console.log(this.logInOut.isLoggedIn);
+
+  }
   signUp() {
     this.signUpForm.reset();
     this.router.navigate(['/signUp']);
