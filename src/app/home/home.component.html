@@ -17,13 +17,13 @@
       </div>
     </div>
   </div>
-  <table class="table table-striped">
+  <table class="table table-hover rounded-1">
     <thead>
       <tr>
         <th class="px-4" scope="col">Options</th>
         <th scope="col">Name</th>
-        <th scope="col">Room no.</th>
-        <th scope="col">mobile</th>
+        <th scope="col">Room No.</th>
+        <th scope="col">Mobile No.</th>
         <th scope="col">Age</th>
       </tr>
     </thead>
@@ -44,7 +44,10 @@
               class="px-2"
               routerLink="/addRecord"
               (click)="updateRecord(record)"
-              ><i class="fa-regular fa-pen-to-square" style="color: #438a00ce"></i
+              ><i
+                class="fa-regular fa-pen-to-square"
+                style="color: #438a00ce"
+              ></i
             ></a>
           </span>
           <span
@@ -57,7 +60,7 @@
           </span>
         </td>
         <td scope="col">{{ record.Name }}</td>
-        <td scope="col">{{ record.roomNo }}</td>
+        <td class="roomno" scope="col">{{ record.roomNo }}</td>
         <td scope="col">{{ record.mobileNo }}</td>
         <td scope="col">{{ record.age }}</td>
       </tr>
@@ -67,7 +70,7 @@
     <!-- <a><i class="fa-solid fa-arrow-left fa-beat-fade"></i></a>
     <a><i class="fa-solid fa-arrow-right fa-beat-fade"></i></a> -->
     <button
-      class="btn btn-primary"
+      class="btn btn-light"
       [disabled]="currentPage === 1"
       (click)="goToPreviousPage()"
     >
@@ -84,7 +87,7 @@
       <p>of {{ totalPages }}</p>
     </div>
     <button
-      class="btn btn-primary"
+      class="btn btn-light x"
       [disabled]="currentPage === totalPages"
       (click)="goToNextPage()"
     >

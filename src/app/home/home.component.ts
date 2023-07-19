@@ -25,20 +25,17 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private logInOut: logInOut
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getRecords();
-    console.log(this.logInOut.isLoggedIn);
-
+    // console.log(this.logInOut.isLoggedIn);
   }
 
-  addRecord() {
-    this.router.navigate(['/addRecord'], { queryParams: { action: 'create' } });
-  }
   get totalPages(): number {
     return Math.ceil(this.records.length / this.itemsPerPage);
   }
+
   goToPreviousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -50,6 +47,7 @@ export class HomeComponent implements OnInit {
       this.currentPage++;
     }
   }
+
   goToPage(): void {
     if (this.currentPage > 0 && this.currentPage <= this.totalPages) {
       // Navigate to the specified page
@@ -65,6 +63,10 @@ export class HomeComponent implements OnInit {
         this.currentPage = this.totalPages;
       }
     }
+  }
+
+  addRecord() {
+    this.router.navigate(['/addRecord'], { queryParams: { action: 'create' } });
   }
 
   updateRecord(record: Record) {
@@ -105,5 +107,4 @@ export class HomeComponent implements OnInit {
         }
       );
   }
-
 }

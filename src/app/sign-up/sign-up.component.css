@@ -37,3 +37,19 @@ input {
 label {
   font-weight: 600;
 }
+@media (max-width: 1000px) {
+  .container {
+    height: 330px;
+  }
+  button {
+    left: 92%;
+  }
+  #row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  input {
+    width: 100%;
+  }
+}

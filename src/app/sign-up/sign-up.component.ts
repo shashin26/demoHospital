@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { User } from './user.model';
@@ -26,13 +33,13 @@ export class SignUpComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     public logInOut: logInOut
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.logInOut.isLoggedIn = false;
-    console.log(this.logInOut.isLoggedIn);
-
+    //console.log(this.logInOut.isLoggedIn);
   }
+
   signUp() {
     this.signUpForm.reset();
     this.router.navigate(['/signUp']);
@@ -54,6 +61,7 @@ export class SignUpComponent implements OnInit {
             this.signUpForm.reset();
           } else {
             alert('User not found, please sign up');
+
             this.signUpForm.reset();
           }
         })
@@ -81,6 +89,7 @@ export class SignUpComponent implements OnInit {
             this.logInOut.exist = true;
             this.error = 'User already exists';
           } else {
+            this.logInOut.signup = false;
             this.user.userName = this.signUpForm.value.userName;
             this.user.password = this.signUpForm.value.password;
 

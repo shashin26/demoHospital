@@ -2,8 +2,10 @@
   <div class="new-container">
     <div class="row" id="subcontainer">
       <div class="heading">
-        <h3 [hidden]="!logInOut.signup">Sign Up</h3>
-        <h3 [hidden]="logInOut.signup">Sign In</h3>
+        <h3 [hidden]="!logInOut.signup">
+          <i class="fa-solid fa-beat" style="color: #ffffff">Sign Up</i>
+        </h3>
+        <h3 [hidden]="logInOut.signup" class="fa-solid fa-beat">Sign In</h3>
       </div>
       <div id="row">
         <label for="userName">User Name</label>
@@ -49,7 +51,8 @@
             f.controls['repassword'] &&
             f.controls['password'].touched &&
             f.controls['repassword'].touched &&
-            f.controls['password'].value != f.controls['repassword'].value
+            f.controls['password'].value != f.controls['repassword'].value &&
+            logInOut.signup
           "
         >
           password does not match, recheck the password

@@ -11,17 +11,24 @@
       <h3 [hidden]="updaterecord">Update Admit Form</h3>
       <h3 class="text-danger" [hidden]="deleterecord">Delete Record</h3>
     </div>
-    
+
     <!-- Input fields -->
     <div class="input-form">
       <div class="new-container">
         <!-- Name -->
         <div id="row">
           <label for="Name">Name</label>
-          <input class="form-control" type="text" name="Name" id="Name" [(ngModel)]="record.Name" [hidden]="!deleterecord" />
-          <h5 [hidden]="deleterecord">{{record.Name}}</h5>
+          <input
+            class="form-control"
+            type="text"
+            name="Name"
+            id="Name"
+            [(ngModel)]="record.Name"
+            [hidden]="!deleterecord"
+          />
+          <h5 [hidden]="deleterecord">{{ record.Name }}</h5>
         </div>
-        
+
         <!-- Room No. -->
         <div id="row">
           <label for="roomNo">Room No.</label>
@@ -32,9 +39,9 @@
             [(ngModel)]="record.roomNo"
             [hidden]="!deleterecord"
           />
-          <h5 [hidden]="deleterecord">{{record.roomNo}}</h5>
+          <h5 [hidden]="deleterecord">{{ record.roomNo }}</h5>
         </div>
-        
+
         <!-- Mobile No. -->
         <div id="row">
           <label for="mobileNo">Mobile No.</label>
@@ -45,9 +52,9 @@
             [(ngModel)]="record.mobileNo"
             [hidden]="!deleterecord"
           />
-          <h5 [hidden]="deleterecord">{{record.mobileNo}}</h5>
+          <h5 [hidden]="deleterecord">{{ record.mobileNo }}</h5>
         </div>
-        
+
         <!-- Age -->
         <div id="row">
           <label for="age">Age</label>
@@ -58,31 +65,23 @@
             [(ngModel)]="record.age"
             [hidden]="!deleterecord"
           />
-          <h5 [hidden]="deleterecord">{{record.age}}</h5>
+          <h5 [hidden]="deleterecord">{{ record.age }}</h5>
         </div>
       </div>
     </div>
-    
+
     <!-- Buttons -->
     <div class="button">
       <!-- Save button -->
-      <button
-        class="btn btn-primary"
-        type="submit"
-        [hidden]="addrecord"
-      >
+      <button class="btn btn-success" type="submit" [hidden]="addrecord">
         Save
       </button>
-      
+
       <!-- Update button -->
-      <button
-        class="btn btn-warning"
-        type="submit"
-        [hidden]="updaterecord"
-      >
+      <button class="btn btn-warning" type="submit" [hidden]="updaterecord">
         Update
       </button>
-      
+
       <!-- Delete button -->
       <button
         class="btn btn-danger"

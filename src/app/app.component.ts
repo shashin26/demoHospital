@@ -27,6 +27,11 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/signUp']);
   }
 
+  default() {
+    this.router.navigate(['/']);
+    this.logInOut.isLoggedIn = false;
+  }
+
   logOut() {
     this.logInOut.signup = false;
     this.logInOut.isLoggedIn = false;
