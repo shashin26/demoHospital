@@ -12,23 +12,27 @@
         >
       </span>
       <div>
-        <label class="h5" for="search">Search : </label>
-        <input class="rounded" type="text" [(ngModel)]="search" />
+        <input
+          placeholder="   Search"
+          class="rounded"
+          type="text"
+          [(ngModel)]="search"
+        />
       </div>
     </div>
   </div>
-  <table class="table table-hover rounded-1">
+  <table class="table table-borderless table-hover rounded-1">
     <thead>
       <tr>
-        <th class="px-4" scope="col">Options</th>
-        <th scope="col">Name</th>
-        <th scope="col">Room No.</th>
-        <th scope="col">Mobile No.</th>
-        <th scope="col">Age</th>
+        <th class="table-cell1" scope="col">Options</th>
+        <th class="table-cell" scope="col">Name</th>
+        <th class="table-cell1" scope="col">Room No.</th>
+        <th class="table-cell" scope="col">Mobile No.</th>
+        <th class="table-cell1" scope="col">Age</th>
       </tr>
     </thead>
     <tbody>
-      <tr
+      <!-- <tr
         *ngFor="
           let record of records.slice(
             (currentPage - 1) * itemsPerPage,
@@ -36,9 +40,19 @@
           ) | filter : search
         "
         id="tr"
+      > -->
+      <tr
+        *ngFor="
+          let record of records
+            | filter : search
+            | slice
+              : (currentPage - 1) * itemsPerPage
+              : currentPage * itemsPerPage
+        "
+        id="tr"
       >
         <!-- <tr *ngFor="let record of records | filter : search" id="tr" > -->
-        <td scope="col">
+        <td class="table-cell1" scope="col">
           <span
             ><a
               class="px-2"
@@ -59,10 +73,10 @@
             ></a>
           </span>
         </td>
-        <td scope="col">{{ record.Name }}</td>
-        <td class="roomno" scope="col">{{ record.roomNo }}</td>
-        <td scope="col">{{ record.mobileNo }}</td>
-        <td scope="col">{{ record.age }}</td>
+        <td class="table-cell" scope="col">{{ record.Name }}</td>
+        <td class="table-cell1" scope="col">{{ record.roomNo }}</td>
+        <td class="table-cell" scope="col">{{ record.mobileNo }}</td>
+        <td class="table-cell1" scope="col">{{ record.age }}</td>
       </tr>
     </tbody>
   </table>
@@ -74,10 +88,10 @@
       [disabled]="currentPage === 1"
       (click)="goToPreviousPage()"
     >
-      Previous
+      <i class="fa-solid fa-caret-left fa-lg" style="color: #000000"></i>
     </button>
     <div class="page-item">
-      <p>Page :</p>
+      <p class="px-2">Page :</p>
       <input
         class="page-input form-control"
         type="number"
@@ -91,7 +105,10 @@
       [disabled]="currentPage === totalPages"
       (click)="goToNextPage()"
     >
-      Next
+      <i
+        class="fa-solid fa-caret-left fa-rotate-180 fa-lg"
+        style="color: #000000"
+      ></i>
     </button>
   </div>
 </div>

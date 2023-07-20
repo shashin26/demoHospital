@@ -11,6 +11,7 @@ import { AddRecordComponent } from './add-record/add-record.component';
 import { FilterPipe } from './filter.pipe';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
   { path: 'signUp', component: SignUpComponent },
@@ -20,6 +21,8 @@ const appRoutes: Routes = [
     component: AddRecordComponent,
     canActivate: [AuthGuardService],
   },
+  { path: 'not-found', component: PageNotFoundComponent },
+  //{ path: '**', redirectTo: 'not-found' },
 ];
 
 @NgModule({
@@ -29,6 +32,7 @@ const appRoutes: Routes = [
     HomeComponent,
     AddRecordComponent,
     FilterPipe,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,20 +1,21 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Record } from '../app/home/record.model';
 
 @Pipe({
   name: 'filter',
 })
 export class FilterPipe implements PipeTransform {
-  transform(items: any[], searchText: string): any[] {
-    if (!items || !searchText) {
-      return items;
+  transform(records: Record[], search: string): Record[] {
+    if (!search) {
+      return records;
     }
-    searchText = searchText.toLowerCase();
-    return items.filter((item) => {
+
+    return records.filter((record) => {
       return (
-        item.Name.toLowerCase().includes(searchText) ||
-        item.roomNo.toLowerCase().includes(searchText) ||
-        item.mobileNo.toLowerCase().includes(searchText) ||
-        item.age.toLowerCase().includes(searchText)
+        record.Name.toLowerCase().includes(search.toLowerCase()) ||
+        record.roomNo.toLowerCase().includes(search.toLowerCase()) ||
+        record.mobileNo.toLowerCase().includes(search.toLowerCase()) ||
+        record.age.toLowerCase().includes(search.toLowerCase())
       );
     });
   }

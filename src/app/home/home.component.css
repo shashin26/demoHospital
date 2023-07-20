@@ -8,7 +8,8 @@
 }
 
 input {
-  width: 300px;
+  width: 350px;
+  margin-right: 60px;
 }
 span {
   padding-left: 10px;
@@ -19,6 +20,14 @@ th {
 #header {
   display: flex;
   justify-content: space-between;
+}
+.table-cell {
+  text-align: center;
+  width: 180px; /* Adjust the width as per your requirement */
+}
+.table-cell1 {
+  text-align: center;
+  width: 100px; /* Adjust the width as per your requirement */
 }
 .table-bottom {
   border-radius: 3px;
@@ -37,8 +46,4 @@ button {
 }
 .page-item {
   display: flex;
-  justify-content: space-evenly;
-}
-.roomno {
-  padding-left: 2%;
 }

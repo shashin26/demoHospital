@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../sign-up/user.model';
 import { RecordModel } from './record-get.model';
+import { RecordService } from '../services/record.service';
 
 @Component({
   selector: 'app-add-record',
@@ -19,19 +20,19 @@ export class AddRecordComponent implements OnInit {
     mobileNo: '',
     age: '',
   };
-  users: User[] = [];
-  error = null;
+  error: string | null = null;
   keys: string[] = [];
   addrecord = true;
   updaterecord = true;
   deleterecord = true;
-  id: string | null = null;
+  id: string = '';
 
   constructor(
     public home: HomeComponent,
     private activatedRoute: ActivatedRoute,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private recordService: RecordService
   ) {}
 
   ngOnInit(): void {
@@ -65,75 +66,113 @@ export class AddRecordComponent implements OnInit {
   }
 
   fetchRecordData(id: string) {
-    // Perform an HTTP request or any other method to fetch the record data by ID
-    // For example:
-    this.http
-      .get<RecordModel>(
-        `https://userdata-89ae3-default-rtdb.firebaseio.com/records/${id}.json`
-      )
-      .subscribe((response) => {
+    this.recordService.fetchRecordData(id).subscribe(
+      (response) => {
         if (response) {
           this.record = response;
         }
-      });
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
   onFormSubmit() {
     if (!this.id) {
-      // Save operation
-      this.http
-        .post(
-          'https://userdata-89ae3-default-rtdb.firebaseio.com/records.json',
-          this.record
-        )
-        .subscribe(
-          (res) => {
-            //console.log(res);
-            this.home.getRecords();
-          },
-          (error) => {
-            console.error('Error:', error);
-            // Handle the error accordingly (display error message, perform fallback action, etc.)
+      // New entry: Check if the room number already exists in the records list
+      this.recordService.getRecords().subscribe(
+        (records) => {
+          const isRoomNumberOccupied = records.some(
+            (record) => record.roomNo === this.record.roomNo
+          );
+
+          if (isRoomNumberOccupied) {
+            // Room number is already occupied
+            this.error = 'Room number is already occupied.';
+          } else {
+            // Room number is not occupied
+            this.recordService.addRecord(this.record).subscribe(
+              (res) => {
+                //console.log(res);
+                this.home.getRecords();
+                this.router.navigate(['/home']);
+              },
+              (error) => {
+                console.error('Error:', error);
+              }
+            );
           }
-        );
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
     } else {
-      // Update operation
-      this.http
-        .put(
-          `https://userdata-89ae3-default-rtdb.firebaseio.com/records/${this.id}.json`,
-          this.record
-        )
-        .subscribe(
-          (res) => {
-            //console.log(res);
-            this.home.getRecords();
-          },
-          (error) => {
-            console.error('Error:', error);
-            // Handle the error accordingly (display error message, perform fallback action, etc.)
+      // Update operation: Check if room number is changed
+      this.recordService.fetchRecordData(this.id).subscribe(
+        (record) => {
+          if (record && record.roomNo === this.record.roomNo) {
+            // Room number is not changed, proceed with the update
+            this.recordService.updateRecord(this.id, this.record).subscribe(
+              (res) => {
+                //console.log(res);
+                this.router.navigate(['/home']);
+              },
+              (error) => {
+                console.error('Error:', error);
+              }
+            );
+          } else {
+            // Room number is changed: Check if the new room number is already occupied
+            this.recordService.getRecords().subscribe(
+              (records) => {
+                const isRoomNumberOccupied = records.some(
+                  (record) => record.roomNo === this.record.roomNo
+                );
+
+                if (isRoomNumberOccupied) {
+                  // Room number is already occupied
+                  this.error = 'Room number is already occupied.';
+                } else {
+                  // Room number is not occupied, proceed with the update
+                  this.recordService
+                    .updateRecord(this.id, this.record)
+                    .subscribe(
+                      (res) => {
+                        //console.log(res);
+                        this.router.navigate(['/home']);
+                      },
+                      (error) => {
+                        console.error('Error:', error);
+                      }
+                    );
+                }
+              },
+              (error) => {
+                console.error('Error:', error);
+              }
+            );
           }
-        );
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
     }
-    setTimeout(() => {
-      this.router.navigate(['/home']);
-    }, 1000);
   }
+
   onDelete() {
     if (this.id) {
-      this.http
-        .delete(
-          `https://userdata-89ae3-default-rtdb.firebaseio.com/records/${this.id}.json`
-        )
-        .subscribe(
-          (res) => {
-            // console.log(res);
-            this.home.getRecords();
-          },
-          (error) => {
-            console.error('Error:', error);
-            // Handle the error accordingly (display error message, perform fallback action, etc.)
-          }
-        );
+      this.recordService.deleteRecord(this.id).subscribe(
+        (res) => {
+          // console.log(res);
+          this.home.getRecords();
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
     }
     setTimeout(() => {
       this.router.navigate(['/home']);
