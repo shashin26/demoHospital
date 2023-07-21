@@ -111,4 +111,8 @@ export class SignUpComponent implements OnInit {
     }
     this.logInOut.exist = false;
   }
+  testLogIn() {
+    this.logInOut.isLoggedIn = true;
+    this.router.navigate(['/home']);
+  }
 }

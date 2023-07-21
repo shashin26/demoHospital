@@ -64,6 +64,9 @@
       </div>
     </div>
     <div class="button-class">
+      <!-- <button class="btn btn-secondary" (click)="testLogIn()">
+        Test Login
+      </button> -->
       <button
         class="btn btn-light"
         [hidden]="!logInOut.signup"
@@ -74,7 +77,6 @@
           f.controls['repassword'].touched &&
           f.controls['password'].value != f.controls['repassword'].value
         "
-        (click)="onFormSubmit()"
       >
         Sign Up
       </button>

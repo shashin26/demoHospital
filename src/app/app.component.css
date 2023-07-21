@@ -7,14 +7,18 @@ li {
 .container {
   background-color: #0109209d;
 }
-label {
-  display: inline-block;
-  margin-right: 10px;
-}
 
 input {
   width: 100%;
 }
 section {
   min-height: 700px;
+}
+.container1 {
+  background-color: #071130;
+  height: 100px;
+}
+.bdr {
+  border-radius: 6px;
+  overflow: hidden;
 }

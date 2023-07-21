@@ -84,36 +84,6 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // getRecords() {
-  //   this.records = [];
-  //   this.http
-  //     .get<{ [key: string]: Record }>(
-  //       'https://userdata-89ae3-default-rtdb.firebaseio.com/records.json'
-  //     )
-  //     .pipe(
-  //       map((response) => {
-  //         const sortedRecords: Record[] = [];
-  //         for (const [key, value] of Object.entries(response)) {
-  //           value.key = key;
-  //           sortedRecords.push(value);
-  //         }
-  //         // Sort the records array based on the room number
-  //         return sortedRecords.sort((a, b) => {
-  //           // Assuming roomNo is a number, if it's a string, use parseInt(a.roomNo) and parseInt(b.roomNo) instead
-  //           return parseInt(a.roomNo) - parseInt(b.roomNo);
-  //         });
-  //       })
-  //     )
-  //     .subscribe(
-  //       (sortedRecords: Record[]) => {
-  //         this.records = sortedRecords;
-  //         this.error = null;
-  //       },
-  //       (error) => {
-  //         this.error = error.message;
-  //       }
-  //     );
-  // }
   getRecords() {
     this.recordService.getRecords().subscribe(
       (sortedRecords: Record[]) => {

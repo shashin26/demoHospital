@@ -14,72 +14,77 @@
       <div>
         <input
           placeholder="   Search"
-          class="rounded"
+          class="rounded search-input"
           type="text"
           [(ngModel)]="search"
         />
       </div>
     </div>
   </div>
-  <table class="table table-borderless table-hover rounded-1">
-    <thead>
-      <tr>
-        <th class="table-cell1" scope="col">Options</th>
-        <th class="table-cell" scope="col">Name</th>
-        <th class="table-cell1" scope="col">Room No.</th>
-        <th class="table-cell" scope="col">Mobile No.</th>
-        <th class="table-cell1" scope="col">Age</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- <tr
-        *ngFor="
-          let record of records.slice(
-            (currentPage - 1) * itemsPerPage,
-            currentPage * itemsPerPage
-          ) | filter : search
-        "
-        id="tr"
-      > -->
-      <tr
-        *ngFor="
-          let record of records
-            | filter : search
-            | slice
-              : (currentPage - 1) * itemsPerPage
-              : currentPage * itemsPerPage
-        "
-        id="tr"
-      >
-        <!-- <tr *ngFor="let record of records | filter : search" id="tr" > -->
-        <td class="table-cell1" scope="col">
-          <span
-            ><a
-              class="px-2"
-              routerLink="/addRecord"
-              (click)="updateRecord(record)"
-              ><i
-                class="fa-regular fa-pen-to-square"
-                style="color: #438a00ce"
-              ></i
-            ></a>
-          </span>
-          <span
-            ><a class="px-2" routerLink="/addRecord" (click)="onDelete(record)"
-              ><i
-                class="fa-regular fa-trash-can fa-shake"
-                style="color: #eb3b00"
-              ></i
-            ></a>
-          </span>
-        </td>
-        <td class="table-cell" scope="col">{{ record.Name }}</td>
-        <td class="table-cell1" scope="col">{{ record.roomNo }}</td>
-        <td class="table-cell" scope="col">{{ record.mobileNo }}</td>
-        <td class="table-cell1" scope="col">{{ record.age }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="bdr">
+    <table class="table table-borderless table-hover rounded-1">
+      <thead>
+        <tr>
+          <th class="table-cell1" scope="col">Options</th>
+          <th class="table-cell" scope="col">Name</th>
+          <th class="table-cell1" scope="col">Room No.</th>
+          <th class="table-cell1" scope="col">Age</th>
+          <th class="table-cell" scope="col">Mobile No.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr
+          *ngFor="
+            let record of records.slice(
+              (currentPage - 1) * itemsPerPage,
+              currentPage * itemsPerPage
+            ) | filter : search
+          "
+          id="tr"
+        > -->
+        <tr
+          *ngFor="
+            let record of records
+              | filter : search
+              | slice
+                : (currentPage - 1) * itemsPerPage
+                : currentPage * itemsPerPage
+          "
+          id="tr"
+        >
+          <!-- <tr *ngFor="let record of records | filter : search" id="tr" > -->
+          <td class="table-cell1" scope="col">
+            <span
+              ><a
+                class="px-2"
+                routerLink="/addRecord"
+                (click)="updateRecord(record)"
+                ><i
+                  class="fa-regular fa-pen-to-square"
+                  style="color: #438a00ce"
+                ></i
+              ></a>
+            </span>
+            <span
+              ><a
+                class="px-2"
+                routerLink="/addRecord"
+                (click)="onDelete(record)"
+                ><i
+                  class="fa-regular fa-trash-can fa-shake"
+                  style="color: #eb3b00"
+                ></i
+              ></a>
+            </span>
+          </td>
+          <td class="table-cell" scope="col">{{ record.Name }}</td>
+          <td class="table-cell1" scope="col">{{ record.roomNo }}</td>
+          <td class="table-cell1" scope="col">{{ record.age }}</td>
+          <td class="table-cell" scope="col">{{ record.mobileNo }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div class="table-bottom">
     <!-- <a><i class="fa-solid fa-arrow-left fa-beat-fade"></i></a>
     <a><i class="fa-solid fa-arrow-right fa-beat-fade"></i></a> -->
