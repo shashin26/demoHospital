@@ -4,7 +4,7 @@
   top: 15%;
   left: 10%;
   width: 80%;
-  height: 320px;
+  height: 350px;
 }
 .heading {
   text-align: center;
@@ -31,6 +31,10 @@ label {
 }
 #subcontainer {
   padding-top: 20px;
+}
+h5 {
+  display: flex;
+  align-items: start;
 }
 .new-container {
   padding-left: 10%;

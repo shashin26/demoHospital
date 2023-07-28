@@ -48,6 +48,7 @@
         <div>
           <span class="text-danger fw-bold">{{ error }}</span>
         </div>
+
         <!-- Mobile No. -->
         <div id="row">
           <label for="mobileNo">Mobile No.</label>
@@ -60,6 +61,15 @@
           />
           <h5 [hidden]="deleterecord">{{ record.mobileNo }}</h5>
         </div>
+
+        <!-- Gender -->
+        <!-- <div id="row">
+          <label for="gender">Gender</label>
+          <input type="radio" name="gender" value="Male" /><label>Male</label>
+          <input type="radio" name="gender" value="Female" /><label
+            >Female</label
+          >
+        </div> -->
 
         <!-- Age -->
         <div id="row">
@@ -82,12 +92,10 @@
       <button class="btn btn-success" type="submit" [hidden]="addrecord">
         Save
       </button>
-
       <!-- Update button -->
       <button class="btn btn-warning" type="submit" [hidden]="updaterecord">
         Update
       </button>
-
       <!-- Delete button -->
       <button
         class="btn btn-danger"

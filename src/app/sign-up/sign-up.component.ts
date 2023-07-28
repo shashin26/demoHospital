@@ -1,9 +1,6 @@
 import {
   Component,
-  DoCheck,
-  OnChanges,
   OnInit,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
