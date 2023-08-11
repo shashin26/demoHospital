@@ -4,10 +4,6 @@ a {
 li {
   width: 100px;
 }
-.container {
-  background-color: #0109209d;
-}
-
 input {
   width: 100%;
 }
@@ -15,6 +11,7 @@ section {
   min-height: 700px;
 }
 .container1 {
+  /* background-color:gr; */
   background-color: #071130;
   height: 100px;
 }

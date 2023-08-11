@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, DoCheck, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Record } from './record.model';
@@ -13,8 +13,8 @@ import { RecordService } from '../services/record.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit {
-  search: string = '';
+export class HomeComponent implements OnInit,DoCheck {
+  search!: string;
   error = null;
   @ViewChild(AddRecordComponent) addrecordcomponent!: AddRecordComponent;
   currentPage = 1;
@@ -32,6 +32,12 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.getRecords();
     // console.log(this.logInOut.isLoggedIn);
+  }
+
+  ngDoCheck(): void {
+    // if (this.search){
+    //   this.currentPage=1
+    // }
   }
 
   get totalPages(): number {
