@@ -2,10 +2,10 @@
   <div class="new-container">
     <div class="row" id="subcontainer">
       <div class="heading">
-        <h3 [hidden]="!logInOut.signup">
-          <i class="fa-solid fa-beat" style="color: #ffffff">Sign Up</i>
+        <h3 >
         </h3>
-        <h3 [hidden]="logInOut.signup" class="fa-solid fa-beat">Sign In</h3>
+        <h3 [hidden]="!logInOut.signup" class="fa-solid fa-beat">Sign Up</h3>
+        <h3 [hidden]="logInOut.signup" class="fa-solid fa-beat" >Sign In</h3>
       </div>
       <div id="row">
         <label for="userName">User Name</label>
@@ -64,9 +64,9 @@
       </div>
     </div>
     <div class="button-class">
-      <button class="btn btn-secondary" (click)="testLogIn()">
+      <!-- <button class="btn btn-secondary" (click)="testLogIn()">
         Test Login
-      </button>
+      </button> -->
       <button
         class="btn btn-light"
         [hidden]="!logInOut.signup"
